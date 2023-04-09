@@ -6,6 +6,7 @@ console.log(store.systemName);
 
 </script>
 <template>
-  {{store.systemName }}
-  <el-button>Hello</el-button>
+  <!-- Header -->
+   <!-- <router-view></router-view> -->
+   <router-link to="/Login">登录</router-link>
 </template>
