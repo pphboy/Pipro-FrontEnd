@@ -8,7 +8,7 @@
     <router-view></router-view>
   </div>
 
-  <Footer></Footer>
+  <!-- <Footer></Footer> -->
 </template>
 
 <style scoped>

@@ -10,7 +10,25 @@
 		<div class='detail-line'>
 			<span style="float: left;">这里是介绍</span>
 			<span style="float: right;">
-				<el-icon><Setting /></el-icon>
+				<el-dropdown class="menu-btn">
+					<el-button style="border: 0;padding:10px;">
+						<el-icon><Setting /></el-icon>
+					</el-button>
+
+					<span class="el-dropdown-link">
+						Dropdown List
+						<el-icon class="el-icon--right">
+							<arrow-down />
+						</el-icon>
+					</span>
+					<template #dropdown>
+						<el-dropdown-menu>
+							<el-dropdown-item>进入项目</el-dropdown-item>
+							<el-dropdown-item>项目介绍</el-dropdown-item>
+							
+						</el-dropdown-menu>
+					</template>
+				</el-dropdown>
 			</span>
 			<div style="clear: both;"></div>
 		</div>

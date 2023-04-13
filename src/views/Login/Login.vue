@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Footer from '@/views/Footer/Footer.vue';
 
 </script>
 
@@ -62,6 +63,9 @@
   </el-row>
   <div>
   </div>
+
+  <Footer></Footer>
+
 </template>
 <style scoped>
 
