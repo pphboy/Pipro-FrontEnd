@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Memo} from '@element-plus/icons-vue'
+import { Memo,Message} from '@element-plus/icons-vue'
 </script>
 <template>
   
@@ -11,7 +11,12 @@ import { Memo} from '@element-plus/icons-vue'
         </div>
       </el-col>
       <el-col :span="12">
-        <div class="header_left_sider">
+        <div class="header_right_sider">
+            <div >
+              <el-button style="border: 0;padding:10px;">
+                <el-icon :size="25"><Message /></el-icon>
+              </el-button>
+            </div>
             <div>
               <img class="iconimg" src="@/assets/qq.png"  alt="头像">
             </div>
@@ -22,7 +27,7 @@ import { Memo} from '@element-plus/icons-vue'
                 <div>
                   <el-dropdown class="menu-btn">
                     <el-button style="border: 0;padding:10px;">
-                      <el-icon><Memo /></el-icon>
+                      <el-icon :size="25"><Memo /></el-icon>
                     </el-button>
 
                     <span class="el-dropdown-link">
@@ -33,11 +38,9 @@ import { Memo} from '@element-plus/icons-vue'
                     </span>
                     <template #dropdown>
                       <el-dropdown-menu>
-                        <el-dropdown-item>Action 1</el-dropdown-item>
-                        <el-dropdown-item>Action 2</el-dropdown-item>
-                        <el-dropdown-item>Action 3</el-dropdown-item>
-                        <el-dropdown-item disabled>Action 4</el-dropdown-item>
-                        <el-dropdown-item divided>Action 5</el-dropdown-item>
+                        <el-dropdown-item>新建项目</el-dropdown-item>
+                        <el-dropdown-item>用户信息</el-dropdown-item>
+                        
                       </el-dropdown-menu>
                     </template>
                   </el-dropdown>
@@ -53,19 +56,19 @@ import { Memo} from '@element-plus/icons-vue'
 </template>
 <style scoped>
 
-.header_left_sider{
+.header_right_sider{
   float:right;
   line-height: 50px;
   display: flex;
   align-items: center;
 }
-.header_left_sider>div>img {
+.header_right_sider>div>img {
   display: inline-block;
   width: 45px;
   height: 45px;
   vertical-align: middle; /* 垂直居中 */
 }
-.header_left_sider div {
+.header_right_sider div {
   margin-right: 5px;
   justify-self: center;
 }

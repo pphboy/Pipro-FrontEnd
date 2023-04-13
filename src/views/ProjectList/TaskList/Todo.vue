@@ -1,6 +1,6 @@
 <script setup lang=ts>
 import { checkboxEmits } from 'element-plus';
-import {ref,defineEmits} from 'vue';
+import { ref,defineEmits } from 'vue';
 
 
 const checked = ref(false)
@@ -30,7 +30,7 @@ function globalClick():void {
 <style scoped>
 
 .todo {
-  width: 450px;
+  width: 380px;
   margin-bottom: 5px;
 }
 :deep() .el-card__body{
