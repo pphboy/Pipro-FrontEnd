@@ -2,21 +2,34 @@
 import { ref,defineEmits ,defineProps,withDefaults} from 'vue';
 import { getHeadImage } from '@/utils/ProjectTool';
 import {TodoDetail} from '../../../types/Todo'
+import TodoDetailView from './TodoDetail.vue';
 
 interface Props {
   detail:TodoDetail,
 }
 
 const props = defineProps<Props>();
+const detailVisible = ref(false);
 
-// Todo 框选中的状态
-const checked = ref(false)
 
-function globalClick():void {
-  checked.value =!checked.value;
+function todoClick():void {
+  // 打开任务面板
+  detailVisible.value = true;
+  console.log("打开任务面板");
+}
+
+function todoStatusChange(status:boolean):void{
+  // 如果 true false 表示 取消和完成任务
+  console.log(props.detail.id+" "+status);
 }
 
 
+/**
+ * 关闭窗口
+ */
+function closeWin():void{
+  detailVisible.value = false;
+}
 </script>
 
 <template>
@@ -27,24 +40,31 @@ function globalClick():void {
     draggable 设置 元素可拖放
    -->
 
-    <el-card  @click="globalClick" class="todo"   >
+    <el-card  @click="todoClick" class="todo"   >
       <div class="todo-detail-layout">
           <div>
             <div style="margin:auto 20px;">
-              <el-checkbox @change="globalClick" v-model="checked"></el-checkbox>
+              <el-checkbox @change="todoStatusChange" ></el-checkbox>
             </div>
             <div >
-              <div>{{ props.detail.taskName+props.detail.id }}</div>
+              <div>{{ props.detail.taskName+" "+props.detail.id }}</div>
               <p>结束时间: {{ props.detail.endTime }}</p>
             </div>
           </div>
 
           <div>
-              <img class="head-image" :src="getHeadImage(props.detail.memberName+props.detail.id)" alt="" style="width: 50px; height: 50px;">
+              <img class="head-image" :src="getHeadImage(props.detail.memberName+''+props.detail.id)" alt="" style="width: 50px; height: 50px;">
           </div>
       </div>
     </el-card>
 
+    <!-- 详情 弹窗 -->
+  <el-dialog
+      v-model="detailVisible"
+      width="50%"
+    >
+      <TodoDetailView @close="closeWin" :todo="detail"></TodoDetailView>
+    </el-dialog>
 </template>
 
 <style scoped>

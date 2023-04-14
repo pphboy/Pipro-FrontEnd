@@ -33,7 +33,10 @@ const props = defineProps<KanbanProps>();
 
 
 function addTodo(obj:Object):void {
-  console.log(obj.oldIndex+" "+obj.newIndex,"addTOdo");
+  if('oldIndex' in obj && 'newIndex' in obj){
+    const {oldIndex,newIndex} = obj;
+    console.log(oldIndex+" "+newIndex,"addTOdo");
+  }
 }
 
 </script>
