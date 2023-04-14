@@ -1,21 +1,31 @@
 <script setup lang=ts>
-import { ref,defineEmits ,defineProps,withDefaults} from 'vue';
+import { ref,defineEmits ,defineProps,getCurrentInstance} from 'vue';
 import { getHeadImage } from '@/utils/ProjectTool';
 import {TodoDetail} from '../../../types/Todo'
 import TodoDetailView from './TodoDetail.vue';
+import { emitChangeFn } from 'element-plus';
 
 interface Props {
-  detail:TodoDetail,
+  detail:{type:TodoDetail,required:true},
+  disabled:{type: boolean,required:true},
 }
 
 const props = defineProps<Props>();
 const detailVisible = ref(false);
 
+const emit = defineEmits(['update:disabled']);
 
 function todoClick():void {
   // 打开任务面板
   detailVisible.value = true;
+
+  // 关闭看板拖动事件
+  emit('update:disabled',true);
+  
   console.log("打开任务面板");
+  console.log(getCurrentInstance());
+
+
 }
 
 function todoStatusChange(status:boolean):void{
@@ -23,12 +33,14 @@ function todoStatusChange(status:boolean):void{
   console.log(props.detail.id+" "+status);
 }
 
-
 /**
  * 关闭窗口
  */
 function closeWin():void{
   detailVisible.value = false;
+
+  // 打开看板拖动事件
+  emit('update:disabled',false);
 }
 </script>
 
@@ -60,6 +72,7 @@ function closeWin():void{
 
     <!-- 详情 弹窗 -->
   <el-dialog
+      @closed="closeWin"
       v-model="detailVisible"
       width="50%"
     >

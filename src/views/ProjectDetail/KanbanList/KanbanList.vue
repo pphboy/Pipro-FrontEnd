@@ -30,6 +30,7 @@ interface KanbanProps
 }
 
 const props = defineProps<KanbanProps>();
+const kanbanDisabled= ref<boolean>(false);
 
 
 function addTodo(obj:Object):void {
@@ -80,12 +81,13 @@ function addTodo(obj:Object):void {
       :group="props.kanban.listName"
       :options="{}"
       :animation="300"
+      :disabled="kanbanDisabled"
       item-key="id"
       >
 
       <template #item="{element}">
         <div>
-          <Todo :detail="element"></Todo>
+          <Todo ref="todo" v-model:disabled="kanbanDisabled" :detail="element"></Todo>
         </div>
       </template>
     </draggable>
