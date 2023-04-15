@@ -11,7 +11,6 @@
  const emit = defineEmits(['close']);
 
 
-
 function saveClick():void {
   emit("close"); // 调用转入的事件，不传参
 }
@@ -21,7 +20,8 @@ function saveClick():void {
 
   <el-row>
     <el-col>
-      <h3>{{ todo.memberName }}</h3>
+      <!-- <h3>{{ todo.memberName }}</h3> -->
+      <el-input style="margin-bottom: 10px;" v-model="todo.memberName"></el-input>
     </el-col>
     <el-col>
         <div class="userlist">

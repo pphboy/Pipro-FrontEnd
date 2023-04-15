@@ -4,34 +4,17 @@
 
 <template>
 	<div class='projects-view'>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard><ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard><ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard><ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard><ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard><ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard><ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard><ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard><ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
-		<ProjectCard></ProjectCard>
+		<ProjectCard @click.native="$router.push({name:'ProjectDetail'})"></ProjectCard>
+		<ProjectCard @click.native="$router.push({name:'ProjectDetail'})"></ProjectCard>
+		<ProjectCard @click.native="$router.push({name:'ProjectDetail'})"></ProjectCard>
+		<ProjectCard @click.native="$router.push({name:'ProjectDetail'})"></ProjectCard>
+		<ProjectCard @click.native="$router.push({name:'ProjectDetail'})"></ProjectCard>
+		<ProjectCard @click.native="$router.push({name:'ProjectDetail'})"></ProjectCard>
+		<ProjectCard @click.native="$router.push({name:'ProjectDetail'})"></ProjectCard>
+		<ProjectCard @click.native="$router.push({name:'ProjectDetail'})"></ProjectCard>
+		<ProjectCard @click.native="$router.push({name:'ProjectDetail'})"></ProjectCard>
+		<ProjectCard @click.native="$router.push({name:'ProjectDetail'})"></ProjectCard>
+		<ProjectCard @click.native="$router.push({name:'ProjectDetail'})"></ProjectCard>
 	</div>
 </template>
 

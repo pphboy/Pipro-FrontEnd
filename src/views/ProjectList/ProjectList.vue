@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import Header from './Header.vue';
+import Header from '@/components/Header.vue';
 import TaskList from './TaskList/TaskList.vue'
 import ProjectsView from './ProjectsView/ProjectsView.vue'
 </script>
 
 <template>
-  <Header></Header>
+  <Header type="ProjectList"></Header>
 
   <div class="project-main" >
       <div>

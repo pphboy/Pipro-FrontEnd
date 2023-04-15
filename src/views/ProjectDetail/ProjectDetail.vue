@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Header from './Header/Header.vue';
+import Header from '@/components/Header.vue';
 
 </script>
 
 <template>
-  <Header></Header>
+  <Header type="ProjectDetail"></Header>
   <router-view></router-view>
 </template>

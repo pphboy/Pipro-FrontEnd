@@ -11,15 +11,15 @@ interface TodoDetail{
 
 // 标准接口
 interface TodoDetail{
-  missionId:number,
-  missionTitle:string,
-  missionIntro:string,
-  missionOrder:number,
-  createTime:Date,
-  updateTime:Date,
-  startTime:Date,
-  endTime: Date,
-  missionStatus:boolean
+  missionId?:number,
+  missionTitle?:string,
+  missionIntro?:string,
+  missionOrder?:number,
+  createTime?:Date,
+  updateTime?:Date,
+  startTime?:Date,
+  endTime?:string,
+  missionStatus?:boolean
 }
 
 export {

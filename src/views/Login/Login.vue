@@ -51,7 +51,7 @@ import Footer from '@/views/Footer/Footer.vue';
                 </el-col>
                 <el-col >
                   <br>
-                  <el-button @click="$router.push({path:'/ProjectList'})">登录</el-button>
+                  <el-button @click="$router.push({name:'ProjectInstances'})">登录</el-button>
                   <el-button>注册</el-button>
                 </el-col>
               </el-row>

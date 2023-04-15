@@ -1,6 +1,6 @@
 <script setup lang=ts>
 
-import {MoreFilled} from '@element-plus/icons-vue'
+import {MoreFilled,Plus} from '@element-plus/icons-vue'
 import Todo from './Todo.vue';
 import {TodoDetail} from '@/types/Todo'
 import {KanbanDetail} from '@/types/KanbanList';
@@ -9,19 +9,19 @@ import draggable from 'vuedraggable'
 
 import Test from './Test.vue';
 
-const todoList:Array<TodoDetail> = reactive([
- {isfold:false,id:1,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {isfold:false,id:2,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {isfold:false,id:31,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {isfold:false,id:3,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {isfold:false,id:4,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {isfold:false,id:6,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {isfold:false,id:7,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {isfold:false,id:8,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {isfold:false,id:9,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {isfold:false,id:10,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {isfold:false,id:11,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
-])
+const todoList:TodoDetail[] = reactive<Array<TodoDetail>>([
+ {id:1,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
+ {id:2,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
+ {id:31,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
+ {id:3,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
+ {id:4,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
+ {id:6,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
+ {id:7,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
+ {id:8,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
+ {id:9,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
+ {id:10,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
+ {id:11,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
+]);
 
 
 interface KanbanProps 
@@ -70,6 +70,11 @@ function addTodo(obj:Object):void {
 					</template>
 				</el-dropdown>
       </div>
+    </div>
+    <div >
+      <el-button class="add-btn">
+        <el-icon><Plus /></el-icon>
+      </el-button>
     </div>
     <!-- <div class="tasklist">
         <Todo draggable="true" v-for="(todo,id) in todoList" :key=id :detail='todo' ></Todo>
@@ -144,6 +149,11 @@ function addTodo(obj:Object):void {
    .ghost{
     border: solid 1px rgb(19, 41, 239) !important;
 
+   }
+
+   .add-btn {
+    width: 386px;
+    margin-bottom: 5px;
    }
 
 

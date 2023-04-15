@@ -7,8 +7,8 @@ import TodoDetailView from './TodoDetail.vue';
 import { emitChangeFn } from 'element-plus';
 
 interface Props {
-  detail:{type:TodoDetail,required:true},
-  disabled:{type: boolean,required:true},
+  detail:TodoDetail,
+  disabled:boolean,
 }
 
 const props = defineProps<Props>();

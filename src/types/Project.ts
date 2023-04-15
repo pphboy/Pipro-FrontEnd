@@ -1,9 +1,9 @@
 
-interface Project {
-  projectId: number,
+interface PiProject{
+  projectId?: number,
   projectName:string,
   projectIntro: string,
-  createTime:string,
+  createTime?:string,
 }
 
 /**
@@ -18,6 +18,6 @@ interface PiLabel {
 }
 
 export {
-  type Project,
+  type PiProject,
   type PiLabel,
 }
