@@ -2,7 +2,8 @@
 
 interface KanbanDetail {
   kanbanListId:number,
-  listName: string
+  listName: string,
+  change?:boolean,
 }
 
 export {

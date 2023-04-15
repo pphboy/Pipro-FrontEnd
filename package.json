@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@kangc/v-md-editor": "^2.3.15",
     "crypto-js": "^4.1.1",
     "element-plus": "^2.3.3",
     "identicon.js": "^2.3.3",
@@ -16,6 +17,7 @@
     "npm": "^9.6.4",
     "path": "^0.12.7",
     "pinia": "^2.0.34",
+    "prismjs": "^1.29.0",
     "vue": "^3.2.47",
     "vue-router": "4",
     "vuedraggable": "^4.1.0"
@@ -23,6 +25,7 @@
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
     "@types/identicon.js": "^2.3.1",
+    "@types/prismjs": "^1.26.0",
     "@vitejs/plugin-vue": "^4.1.0",
     "typescript": "^4.9.3",
     "vite": "^4.2.0",

@@ -1,6 +1,6 @@
 <script setup lang=ts>
-import TaskList from './KanbanList/KanbanList.vue';
-import Test from './KanbanList/Test.vue'
+import TaskList from '@/components/KanbanList/KanbanList.vue';
+import Test from '@/components/KanbanList/Test.vue'
 
 </script>
 

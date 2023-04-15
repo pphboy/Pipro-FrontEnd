@@ -3,8 +3,8 @@
 import {MoreFilled} from '@element-plus/icons-vue'
 import Todo from './Todo.vue';
 import {TodoDetail} from '@/types/Todo'
-import { ref,reactive,defineEmits ,defineProps,withDefaults} from 'vue';
 import {KanbanDetail} from '@/types/KanbanList';
+import { ref,reactive,defineEmits ,defineProps,withDefaults} from 'vue';
 import draggable from 'vuedraggable'
 
 import Test from './Test.vue';
@@ -51,7 +51,10 @@ function addTodo(obj:Object):void {
       </div>
       <div>
 				<el-dropdown class="menu-btn">
-					<el-button style="border: 0;padding:10px;">
+        <!-- 
+          :disabled="!props.kanban.change"
+         -->
+        <el-button style="border: 0;padding:10px;">
             <el-icon><MoreFilled /></el-icon>
 					</el-button>
 

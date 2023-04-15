@@ -1,7 +1,8 @@
 <script setup lang=ts>
 import { ref,defineEmits ,defineProps,getCurrentInstance} from 'vue';
 import { getHeadImage } from '@/utils/ProjectTool';
-import {TodoDetail} from '../../../types/Todo'
+import {TodoDetail} from '@/types/Todo'
+
 import TodoDetailView from './TodoDetail.vue';
 import { emitChangeFn } from 'element-plus';
 
@@ -56,7 +57,7 @@ function closeWin():void{
       <div class="todo-detail-layout">
           <div>
             <div style="margin:auto 20px;">
-              <el-checkbox @change="todoStatusChange" ></el-checkbox>
+              <el-checkbox  @click.stop @change="todoStatusChange" ></el-checkbox>
             </div>
             <div >
               <div>{{ props.detail.taskName+" "+props.detail.id }}</div>

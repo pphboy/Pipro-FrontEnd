@@ -4,7 +4,11 @@
 
 <template>
 
-  <div class="main">
+  <!-- 
+    // 关闭原生默认事件
+    @contextmenu.prevent="()=>{}"
+   -->
+  <div class="main" @contextmenu.prevent="()=>{}">
     <router-view></router-view>
   </div>
 

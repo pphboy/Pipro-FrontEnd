@@ -50,11 +50,11 @@ import { Memo,Message} from '@element-plus/icons-vue'
       </el-col>
     </el-row>
     <div class="nav-btns">
-      <el-button class="nav-btn">看板</el-button>
-      <el-button class="nav-btn">列表</el-button>
-      <el-button class="nav-btn">文件</el-button>
-      <el-button class="nav-btn">文档</el-button>
-      <el-button class="nav-btn">设置</el-button>
+      <el-button class="nav-btn" @click="$router.push({name:'ProjectDetailMain'})">看板</el-button>
+      <el-button class="nav-btn" @click="$router.push({name:'ProjectTodoList'})">列表</el-button>
+      <el-button class="nav-btn" @click="$router.push({name:'ProjectFileList'})">文件</el-button>
+      <el-button class="nav-btn" @click="$router.push({name:'ProjectDocumentList'})">文档</el-button>
+      <el-button class="nav-btn" @click="$router.push({name:'ProjectSettings'})">设置</el-button>
     </div>
 
   </header>
