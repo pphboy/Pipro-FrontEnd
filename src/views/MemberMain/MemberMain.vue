@@ -3,7 +3,6 @@
 // 共用一个header算了
 import Header from '@/components/Header.vue';
 
-import { globalStore } from '@/store/globalStore';
 import { ref } from 'vue'
 const store = globalStore();
 

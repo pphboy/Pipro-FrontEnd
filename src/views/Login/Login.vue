@@ -9,8 +9,8 @@ import Footer from '@/views/Footer/Footer.vue';
 
     <el-col >
       <el-card class="form_card">
-        <el-row :gutter="30">
-          <el-col class="login_left_side" :span="17">
+        <el-row>
+          <el-col class="login_left_side" :span="16">
             <div>
               <h1>
                 PiPRO 社区版
@@ -20,6 +20,8 @@ import Footer from '@/views/Footer/Footer.vue';
               </h3>
               <p>
                 一月磨一剑。
+
+                <br>
 
                 <!-- 有人说，“你们只会从1到100，不会从0到1”。<br>
                 有人说，“不就是抄吗，谁不会啊”。<br>
@@ -35,25 +37,9 @@ import Footer from '@/views/Footer/Footer.vue';
               </p>
             </div>
           </el-col>
-          <el-col :span="7" >
+          <el-col :span="8" >
               <el-row class="login_right_side">
-                <el-col>
-                  <h3>
-                    登录 / 注册
-                  </h3>
-                </el-col>
-                <el-col :span="22">
-                  <el-input></el-input>
-                </el-col>
-                <el-col :span="22">
-                  <br>
-                  <el-input></el-input>
-                </el-col>
-                <el-col >
-                  <br>
-                  <el-button @click="$router.push({name:'ProjectInstances'})">登录</el-button>
-                  <el-button>注册</el-button>
-                </el-col>
+                <router-view></router-view>
               </el-row>
           </el-col>
         </el-row>
@@ -100,6 +86,7 @@ import Footer from '@/views/Footer/Footer.vue';
 
   }
   .login_right_side {
+    padding: 10px;
     margin-top: 50px;
   }
 

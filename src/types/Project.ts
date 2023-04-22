@@ -4,6 +4,7 @@ interface PiProject{
   projectName:string,
   projectIntro: string,
   createTime?:string,
+  updateTime?:string,
 }
 
 /**

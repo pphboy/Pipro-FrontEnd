@@ -1,14 +1,27 @@
 <script setup lang="ts">
 	import {Setting} from '@element-plus/icons-vue'
+	import { defineProps ,withDefaults } from 'vue'
+	import {PiProject} from '@/types/Project'
+	interface ProjectCardProps{
+		project:PiProject
+	}
+
+	withDefaults(defineProps<ProjectCardProps>(),{
+		project:():PiProject=>({
+			projectName: "这是项目名称",
+			projectIntro:"这是项目介绍",
+		} as PiProject)
+	} )
+
 </script>
 
 <template>
 	<el-card class='project-card'>
 		<div>
-			<span class="project-card-title">项目名称</span>
+			<span class="project-card-title">{{ project.projectName }}</span>
 		</div>
 		<div class='detail-line'>
-			<span style="float: left;">这里是介绍</span>
+			<span style="float: left;">{{ project.projectIntro }}</span>
 			<span style="float: right;">
 				<el-dropdown class="menu-btn">
 					<el-button style="border: 0;padding:10px;">

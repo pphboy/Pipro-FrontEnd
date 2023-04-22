@@ -1,5 +1,11 @@
 <script setup lang="ts">
   import Footer from '@/views/Footer/Footer.vue';
+  import {initService} from '@/services/SystemService'
+
+  initService();
+
+
+
 </script>
 
 <template>

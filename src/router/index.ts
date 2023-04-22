@@ -1,6 +1,6 @@
-import { createRouter, createWebHashHistory } from "vue-router";
-
-import Login from "@/views/Login/Login.vue";
+import { createRouter, createWebHashHistory,RouteRecordRaw,RouteRecordName} from "vue-router";
+import { useGlobalStore } from "@/store/modules/global";
+import { ElNotification } from "element-plus";
 
 // Project
 import ProjectList from "@/views/ProjectList/ProjectList.vue";
@@ -15,12 +15,33 @@ import ProjectSettings from "@/views/ProjectDetail/ProjectSettings/ProjectSettin
 import MemberMain from "@/views/MemberMain/MemberMain.vue";
 import MemberInfo from "@/views/MemberMain/MemberInfo.vue";
 
-const routes = [
+// Login
+import Login from "@/views/Login/Login.vue";
+import LoginComponent from "@/components/Login/Login.vue";
+import RegisterComponent from "@/components/Login/Register.vue";
+
+const routes:RouteRecordRaw[] = [
   {
     path: "/",
     redirect: "/Login"
   },
-  { path: "/Login", component: Login },
+  {
+    component: Login,
+    path:"/Login/Main",
+    redirect: "/Login",
+    children:[
+      {
+        path:'/Register',
+        name: 'Register',
+        component: RegisterComponent
+      },
+      {
+        path:'/Login',
+        name: 'Login',
+        component: LoginComponent
+      },
+    ]
+  },
   {
     path: "/Project/Instances",
     component: ProjectList,
@@ -40,10 +61,10 @@ const routes = [
     ],
   },
   {
-    path: "/Project",
+    path: "/Project/:id",
     name: "ProjectDetail",
     component: ProjectDetail,
-    redirect: "/Project/Main", // 默认入Main
+    redirect: {name:"ProjectDetailMain"}, // 默认入Main
     children: [
       {
         path: "Main",
@@ -74,7 +95,32 @@ const routes = [
   },
 ];
 
-export default createRouter({
+const router =  createRouter({
   history: createWebHashHistory(),
   routes, // routes: routes 缩写
 });
+
+// 无须Token可访问的路径
+const passURL:string[] = ["/Login","/Register"]
+
+router.beforeEach((to,from,next)=>{
+  // 判断 token是否存在
+  if(useGlobalStore().token){
+    // 这里应该是一个请求，用Token更新数据
+    next()
+  }else {
+    
+    if(passURL.indexOf(to.path) != -1){
+      next()
+    }else {
+      ElNotification({
+        title:"登录失效",
+        message:"您的登录已失效，请重新登录",
+        type:"error"
+      })
+      next("/Login")
+    }
+  }
+})
+
+export default router;

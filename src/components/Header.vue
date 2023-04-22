@@ -3,12 +3,28 @@ import { Memo, Message } from '@element-plus/icons-vue'
 import { ref, reactive,computed, defineProps } from 'vue';
 import { PiProject } from '@/types/Project'
 import MessageBag from '@/components/MessageList/MessageBag.vue'
+import {FormRules,FormInstance, ElNotification} from 'element-plus'
+import {saveProject} from '@/services/ProjectListService';
 
 const newProjectDialog = ref(false);
 
 const messageBoxDrawer = ref(false);
 
-const pipro = ref<PiProject>({} as PiProject);
+const pipro = reactive<PiProject>({
+} as PiProject);
+
+const formRef = ref(undefined);
+
+const formRules = reactive<FormRules>({
+  projectName: [
+    { required: true, message: '请输入项目名称', trigger: 'blur' },
+    { min: 1, max: 30, message: '项目名称长度在1~30之间', trigger: 'blur' },
+  ],
+  projectIntro:  [
+    { required: true, message: '请输入项目描述', trigger: 'blur' },
+    { min: 6, max: 240, message: '项目描述的长度在6~240之间', trigger: 'blur' },
+  ],
+})
 
 // 这个计算属性会自动 判断 其 是否 是 需要显示 红点，并改变样式
 const showDot = computed(()=>{
@@ -19,6 +35,27 @@ const props = defineProps<{
   type?: string
 }>();
 
+const createSubmit = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      saveProject(pipro).then(res=>{
+        console.log("createSubmit",res);
+        if(res){
+          ElNotification({
+            message:"添加成功",
+            type:'success'
+          })
+          newProjectDialog.value = false;
+        }
+      }).catch(err=>{
+
+      });
+    } else {
+      // console.log('error submit!', fields)
+    }
+  })
+}
 </script>
 <template>
   <header>
@@ -87,16 +124,16 @@ const props = defineProps<{
         新建项目的弹窗
        -->
   <el-dialog v-model="newProjectDialog" title="新建项目" width="500">
-    <el-form label-width="80px">
-      <el-form-item label="项目名">
+    <el-form ref="formRef" :rules="formRules" :model="pipro"  label-width="80px">
+      <el-form-item label="项目名" prop="projectName">
           <el-input v-model="pipro.projectName" maxlength="20" placeholder="请输入项目名"></el-input>
         </el-form-item>
-        <el-form-item label="项目介绍">
+        <el-form-item label="项目介绍" prop="projectIntro">
           <el-input v-model="pipro.projectIntro" show-word-limit maxlength="200" type="textarea" :rows="5" resize="none"
             placeholder="请输入项目介绍" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">创建</el-button>
+          <el-button type="primary" @click="createSubmit(formRef)">创建</el-button>
         </el-form-item>
       </el-form>
   </el-dialog>
