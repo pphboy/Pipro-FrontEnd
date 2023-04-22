@@ -4,7 +4,7 @@ import { ref, reactive,computed, defineProps } from 'vue';
 import { PiProject } from '@/types/Project'
 import MessageBag from '@/components/MessageList/MessageBag.vue'
 import {FormRules,FormInstance, ElNotification} from 'element-plus'
-import {saveProject} from '@/services/ProjectListService';
+import {saveProject,getProjectList} from '@/services/ProjectListService';
 
 const newProjectDialog = ref(false);
 
@@ -46,6 +46,9 @@ const createSubmit = async (formEl: FormInstance | undefined) => {
             message:"添加成功",
             type:'success'
           })
+          // 刷新项目列表
+          getProjectList();
+          pipro.projectIntro= pipro.projectName=''
           newProjectDialog.value = false;
         }
       }).catch(err=>{
