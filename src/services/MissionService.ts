@@ -6,12 +6,19 @@ import { getProjectDetail } from "./ProjectDetailService";
 import { TodoDetail } from "@/types/Todo";
 
 
+/**
+ * 更新和创建任务
+ * @param todo 
+ * @param projectId 
+ * @returns 
+ */
 export async function createMission(todo: TodoDetail,projectId:number): Promise<boolean>{
   return new Promise((resolve,reject) => {
     try {
       axios.post(API.PROJECT.MISSION.CREATTE,{
         ...todo,
-        labelList:todo.labelList?.map(a=>a.labelId)
+        labelList:[...(todo.labelList ? todo.labelList : [])].map(a=>a.labelId),
+        memberList:[...(todo.memberList ? todo.memberList :[])].map(a=>a.memberId)
       }).then((res) => {
         const data = res.data;
         if(data.status == true){

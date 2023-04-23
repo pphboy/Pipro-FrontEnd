@@ -2,9 +2,9 @@
 
 // 共用一个header算了
 import Header from '@/components/Header.vue';
-
+import { useGlobalStore } from '@/store/modules/global';
 import { ref } from 'vue'
-const store = globalStore();
+const store = useGlobalStore();
 
 
 </script>

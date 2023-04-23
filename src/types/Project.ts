@@ -1,4 +1,5 @@
 import { KanbanDetail } from "./KanbanList";
+import { PiMember } from "./Member";
 
 interface PiProject{
   projectId?: number,
@@ -10,7 +11,15 @@ interface PiProject{
    * 标签列表
    */
   labelList?:Array<PiLabel>,
-  kanbanList?:Array<KanbanDetail>;
+  /**
+   * 看板列表
+   */
+  kanbanList?:Array<KanbanDetail>,
+  /**
+   * 用户列表
+   */
+  memberList?:Array<PiMember>,
+
 }
 
 /**

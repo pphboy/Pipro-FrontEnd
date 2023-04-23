@@ -44,6 +44,12 @@ function closeWin(): void {
   // 打开看板拖动事件
   emit('update:disabled', false);
 }
+function getMemberName(list:Set<PiMember> | undefined):string{
+  if(list == undefined || list.size== 0){
+    return "DEFAULT"
+  }
+  return [...list][0].memberName;
+}
 </script>
 
 <template>
@@ -68,8 +74,7 @@ function closeWin(): void {
 
       <div>
         <!-- 没有人就是一个默认头像 -->
-        <img class="head-image" :src="getHeadImage((props.detail.memberList ||
-         [{ memberName:'DEFAULT'} as PiMember])[0].memberName)" alt=""
+        <img class="head-image" :src="getHeadImage(getMemberName(props.detail.memberList)) " alt=""
           style="width: 50px; height: 50px;">
       </div>
     </div>

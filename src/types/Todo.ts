@@ -9,7 +9,7 @@ interface TodoDetail{
   missionOrder?:number,
   createTime?:Date,
   kanbanListId?:number,
-  memberList?:Array<PiMember>,
+  memberList?:Set<PiMember>,
   labelList?:Array<PiLabel>,
   updateTime?:Date,
   startTime?:string,
