@@ -31,7 +31,7 @@ function todoClick():void {
 
 function todoStatusChange(status:boolean):void{
   // 如果 true false 表示 取消和完成任务
-  console.log(props.detail.id+" "+status);
+  console.log(props.detail.missionTitle+" "+status);
 }
 
 /**
@@ -60,13 +60,13 @@ function closeWin():void{
               <el-checkbox  @click.stop @change="todoStatusChange" ></el-checkbox>
             </div>
             <div >
-              <div>{{ props.detail.taskName+" "+props.detail.id }}</div>
+              <div>{{ props.detail.missionTitle }}</div>
               <p>结束时间: {{ props.detail.endTime }}</p>
             </div>
           </div>
 
           <div>
-              <img class="head-image" :src="getHeadImage(props.detail.memberName+''+props.detail.id)" alt="" style="width: 50px; height: 50px;">
+              <img class="head-image" :src="getHeadImage(props.detail.memberList[0].memberName)" alt="" style="width: 50px; height: 50px;">
           </div>
       </div>
     </el-card>

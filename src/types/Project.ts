@@ -1,3 +1,4 @@
+import { KanbanDetail } from "./KanbanList";
 
 interface PiProject{
   projectId?: number,
@@ -5,17 +6,23 @@ interface PiProject{
   projectIntro: string,
   createTime?:string,
   updateTime?:string,
+  /**
+   * 标签列表
+   */
+  labelList?:Array<PiLabel>,
+  kanbanList?:Array<KanbanDetail>;
 }
 
 /**
  * 标签
  */
 interface PiLabel {
-  labelId:number,
+  projectId:number,
+  labelId?:number,
   labelName:string,
   labelColor:string,
-  createTime: string,
-  updateTime: string,
+  createTime?: string,
+  updateTime?: string,
 }
 
 export {

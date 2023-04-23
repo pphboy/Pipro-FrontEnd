@@ -56,14 +56,23 @@ instance.interceptors.response.use(function (response) {
     })
   }else if(status >= 400){
     switch (status) {
-      case 403:
+      case 400:
           ElNotification({
-            title:'访问权限异常',
-            message:"请重新登录账号",
+            title:'系统错误',
+            message:"参数错误",
             type:'error'
           })
-          useGlobalStore().clearLogin();
-          router.push({name:"Login"})
+          // useGlobalStore().clearLogin();
+          // router.push({name:"Login"})
+        break;
+      case 403:
+          ElNotification({
+            title:'权限异常',
+            message:response.data.message,
+            type:'error'
+          })
+          // useGlobalStore().clearLogin();
+          // router.push({name:"Login"})
         break;
       default:
           ElNotification({

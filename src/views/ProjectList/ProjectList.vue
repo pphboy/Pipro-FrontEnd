@@ -2,6 +2,8 @@
 import Header from '@/components/Header.vue';
 import TaskList from './TaskList/TaskList.vue'
 import ProjectsView from './ProjectsView/ProjectsView.vue'
+
+
 </script>
 
 <template>

@@ -21,24 +21,16 @@ function saveClick():void {
   <el-row>
     <el-col>
       <!-- <h3>{{ todo.memberName }}</h3> -->
-      <el-input style="margin-bottom: 10px;" v-model="todo.memberName"></el-input>
+      <el-input style="margin-bottom: 10px;" v-model="todo.missionTitle"></el-input>
     </el-col>
     <el-col>
         <div class="userlist">
-          <div>
+          <div v-for="(u,i) in todo.memberList" :key="i">
             <div>
-                <img  class="head-image" :src="getHeadImage('abc')" alt="" style="">
+                <img  class="head-image" :src="getHeadImage(u.memberName)" alt="" style="">
             </div>
             <div>
-              UserNameAB
-            </div>
-          </div>
-          <div>
-            <div>
-                <img  class="head-image" :src="getHeadImage('abc')" alt="" style="">
-            </div>
-            <div>
-              UserNameAB
+              {{ u.memberName }}
             </div>
           </div>
         </div>
@@ -54,7 +46,7 @@ function saveClick():void {
     <el-col :span="8">
         <el-date-picker
           v-model="todo.startTime"
-          type="date"
+          type="datetime"
           placeholder="Pick a date"
           style="width: 100%"
         />
@@ -65,6 +57,7 @@ function saveClick():void {
       <el-col :span="8">
         <el-date-picker
           v-model="todo.endTime"
+          type="datetime"
           placeholder="Pick a time"
           style="width: 100%"
         />

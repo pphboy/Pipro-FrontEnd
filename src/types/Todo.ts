@@ -1,13 +1,4 @@
-
-/**
- * Todo 组件 的 Props 数据接口
- */
-interface TodoDetail{
-  taskName?:string,
-  // endTime?:string,
-  memberName?:string,
-  id?:number,
-}
+import { PiMember } from "./Member"
 
 // 标准接口
 interface TodoDetail{
@@ -16,6 +7,7 @@ interface TodoDetail{
   missionIntro?:string,
   missionOrder?:number,
   createTime?:Date,
+  memberList:Array<PiMember>,
   updateTime?:Date,
   startTime?:Date,
   endTime?:string,

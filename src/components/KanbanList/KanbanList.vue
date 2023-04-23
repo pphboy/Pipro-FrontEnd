@@ -82,11 +82,11 @@ function addTodo(obj:Object):void {
     </div> -->
 
     <draggable 
-      :list="todoList" class="tasklist"
+      :list="kanban.missionList" class="tasklist"
       @add="addTodo"
       :forceFallback="true"
       ghost-class="chosen" 
-      :group="props.kanban.listName"
+      :group="'project'"
       :options="{}"
       :animation="300"
       :disabled="kanbanDisabled"

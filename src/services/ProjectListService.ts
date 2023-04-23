@@ -45,3 +45,19 @@ export async function saveProject(project: PiProject):Promise<boolean>{
     })
   });
 }
+
+export async function updateProject(project: PiProject):Promise<boolean>{
+  const {projectName,projectIntro,projectId} = project;
+  return new Promise((resolve,reject)=>{
+    axios.post(API.PROJECT.CREATE,{projectName,projectIntro,projectId}).then(res=>{
+      if(res.data.status){
+        resolve(true)
+      }else {
+        resolve(false)
+      }
+    }).catch((err)=>{
+      console.log(`[getProjectListByMemberId] `,err);
+      reject(false);
+    })
+  });
+}
