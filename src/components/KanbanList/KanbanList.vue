@@ -6,22 +6,7 @@ import {TodoDetail} from '@/types/Todo'
 import {KanbanDetail} from '@/types/KanbanList';
 import { ref,reactive,defineEmits ,defineProps,withDefaults} from 'vue';
 import draggable from 'vuedraggable'
-
-import Test from './Test.vue';
-
-const todoList:TodoDetail[] = reactive<Array<TodoDetail>>([
- {id:1,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {id:2,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {id:31,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {id:3,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {id:4,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {id:6,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {id:7,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {id:8,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {id:9,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {id:10,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
- {id:11,taskName:"任务$1",endTime:"2023-04-14",memberName:"Mark"}, 
-]);
+import TodoDetailView from './TodoDetail.vue';
 
 
 interface KanbanProps 
@@ -32,6 +17,20 @@ interface KanbanProps
 const props = defineProps<KanbanProps>();
 const kanbanDisabled= ref<boolean>(false);
 
+const missionVisible = ref(false);
+
+const missionDetail = ref<TodoDetail>({
+  missionTitle:""
+});
+
+/**
+ * 关闭窗口
+ */
+function closeWin(): void {
+  missionVisible.value = false;
+
+  // 打开看板拖动事件
+}
 
 function addTodo(obj:Object):void {
   if('oldIndex' in obj && 'newIndex' in obj){
@@ -39,6 +38,7 @@ function addTodo(obj:Object):void {
     console.log(oldIndex+" "+newIndex,"addTOdo");
   }
 }
+
 
 </script>
 
@@ -51,10 +51,7 @@ function addTodo(obj:Object):void {
       </div>
       <div>
 				<el-dropdown class="menu-btn">
-        <!-- 
-          :disabled="!props.kanban.change"
-         -->
-        <el-button style="border: 0;padding:10px;">
+          <el-button  style="border: 0;padding:10px;">
             <el-icon><MoreFilled /></el-icon>
 					</el-button>
 
@@ -72,7 +69,7 @@ function addTodo(obj:Object):void {
       </div>
     </div>
     <div >
-      <el-button class="add-btn">
+      <el-button @click="missionVisible = true;" class="add-btn">
         <el-icon><Plus /></el-icon>
       </el-button>
     </div>
@@ -100,6 +97,10 @@ function addTodo(obj:Object):void {
       </template>
     </draggable>
 
+    <!-- 详情 弹窗 -->
+    <el-dialog @closed="closeWin" v-model="missionVisible" width="50%">
+      <TodoDetailView :kanban-list-id="kanban.kanbanListId" @close="closeWin" :todo="missionDetail"></TodoDetailView>
+    </el-dialog>
   </div>
 
 </template>

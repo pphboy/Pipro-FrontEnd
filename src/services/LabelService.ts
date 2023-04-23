@@ -18,6 +18,7 @@ export async function createLabel(label:PiLabel): Promise<boolean> {
       console.log("createLabel",label);
 
       if (res.data.status) {
+        ElMessage.success(res.data.message)
         // 更新整个项目
         getProjectDetail(label.projectId);
         resolve(true)
@@ -42,7 +43,8 @@ export async function createLabel(label:PiLabel): Promise<boolean> {
 export async function deleteLabelById(label: PiLabel): Promise<boolean> {
   return new Promise<boolean>((resolve, reject) => {
     const loadingInstance = ElLoading.service({ fullscreen: true });
-    axios.delete(API.PROJECT.LABEL.DETELE(label.labelId)).then(res => {
+    // 这个下面是需要给一个默认值
+    axios.delete(API.PROJECT.LABEL.DETELE(label.labelId || -1)).then(res => {
 
       console.log("deleteLabelById", res);
 

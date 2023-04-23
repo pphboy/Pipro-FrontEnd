@@ -42,6 +42,15 @@ const API= {
        * 标签删除${id}
        */
       DETELE:(id:number):string=>`/project/label/${id}`
+    },
+    /**
+     * 任务
+     */
+    MISSION:{
+      /**
+       * POST 创建任务
+       */
+      CREATTE:"/project/mission",
     }
 
   }

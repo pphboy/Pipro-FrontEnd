@@ -1,19 +1,64 @@
 <script setup lang=ts>
  import {ref,reactive,defineProps,defineEmits} from "vue";
- import { ElMessageBox } from 'element-plus'
+ import { ElMessageBox,ElMessage } from 'element-plus'
  import { TodoDetail } from "@/types/Todo";
  import {getHeadImage} from '@/utils/ProjectTool';
+ import { PiMember } from "@/types/Member";
+ import { PiLabel } from "@/types/Project";
+ import { useProjectDetailStore } from "@/store/modules/projectDetail";
+ import {createMission} from '@/services/MissionService'
+ import { useRouter } from "vue-router";
+
+ const router=  useRouter();
+
+ const projectStore = useProjectDetailStore();
 
  const props = defineProps<{
   todo : TodoDetail
+  kanbanListId?:number,
  }>();
 
  const emit = defineEmits(['close']);
-
+ /**
+  * 这里的业务放到业务层了，视图只是做个事件触发，非常的方便。
+  */
 
 function saveClick():void {
-  emit("close"); // 调用转入的事件，不传参
+  console.log("saveClick => ",props.todo);
+
+  // 设置标签
+  props.todo.labelList = labelList.value.map(a=>{
+    return {
+      labelId:a
+    } as PiLabel;
+  })
+  props.todo.memberList = []; // 设置一个空默认值
+  // 如果有看板号，则说明是新增
+  if(props.kanbanListId){
+    props.todo.kanbanListId = props.kanbanListId
+    if(!(props.todo.missionTitle.trim())){
+      ElMessage({message:"请输入任务名",type:"warning"})
+      return;
+    }
+    const pid=  Number((router.currentRoute.value.params || {id:-1}).id);
+    createMission(props.todo,pid).then(res=>{
+
+    }).catch(res=>{
+
+    }).finally(()=>{
+      emit("close"); // 调用转入的事件，不传参
+    })
+  }
+
+
 }
+
+const defaultMemberList = reactive<PiMember[]>([{
+  memberName:"DEFAULT"
+} as PiMember]);
+
+// 默认值就是labelList嘛，这个没有设置好，确实有点小问题
+const labelList = ref((props.todo.labelList || []).map(a=>a.labelId))
 </script>
 
 <template>
@@ -21,11 +66,11 @@ function saveClick():void {
   <el-row>
     <el-col>
       <!-- <h3>{{ todo.memberName }}</h3> -->
-      <el-input style="margin-bottom: 10px;" v-model="todo.missionTitle"></el-input>
+      <el-input placeholder="请输入任务名" style="margin-bottom: 10px;" v-model="todo.missionTitle"></el-input>
     </el-col>
     <el-col>
         <div class="userlist">
-          <div v-for="(u,i) in todo.memberList" :key="i">
+          <div v-for="(u,i) in todo.memberList || defaultMemberList" :key="i">
             <div>
                 <img  class="head-image" :src="getHeadImage(u.memberName)" alt="" style="">
             </div>
@@ -46,6 +91,8 @@ function saveClick():void {
     <el-col :span="8">
         <el-date-picker
           v-model="todo.startTime"
+        format="YYYY-MM-DD HH:mm:ss"
+        value-format="YYYY-MM-DD HH:mm:ss"
           type="datetime"
           placeholder="Pick a date"
           style="width: 100%"
@@ -56,6 +103,8 @@ function saveClick():void {
       </el-col>
       <el-col :span="8">
         <el-date-picker
+        format="YYYY-MM-DD HH:mm:ss"
+        value-format="YYYY-MM-DD HH:mm:ss"
           v-model="todo.endTime"
           type="datetime"
           placeholder="Pick a time"
@@ -76,13 +125,21 @@ function saveClick():void {
   <el-row class="time-row">
     <el-col>
       <div class="label-list">
-        <div>标签：</div>
-        <div class="label-mg">
-          <el-tag class="ml-2" type="success">Tag 2</el-tag>
-        </div>
-        <div class="label-mg">
-             <el-tag class="ml-2" type="info">Tag 3</el-tag>
-        </div>
+        <el-form-item label="标签">
+        <el-select
+          v-model="labelList"
+          multiple
+          placeholder="Select"
+          style="width: 400px"
+        >
+          <el-option
+            v-for="item in projectStore.projectDetail.labelList"
+            :key="item.labelId"
+            :label="item.labelName"
+            :value="item.labelId"
+          />
+        </el-select>
+        </el-form-item>
       </div>
     </el-col>
   </el-row>
@@ -92,14 +149,6 @@ function saveClick():void {
       <el-button @click="saveClick">保存</el-button>
     </el-col>
   </el-row>
-
-
-
-
-
-
-
-
 
 </template>
 

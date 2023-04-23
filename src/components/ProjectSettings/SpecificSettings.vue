@@ -34,13 +34,7 @@ const handleDelete = (index: number, row:PiLabel) => {
     }
   )
     .then(() => {
-     deleteLabelById(row).then(res=>{
-        editPiLabel.labelColor = "";
-        editPiLabel.labelName = "";
-        editPiLabel.projectId = -1;
-        editPiLabel.labelId = undefined;
-      })
-
+      deleteLabelById(row)
     })
     .catch(() => {
       
@@ -65,7 +59,12 @@ const labelSubmit = ()=>{
   }
   // 每次添加前都 重围ProjectID
   editPiLabel.projectId = Number(`${router.currentRoute.value.params.id}`);
-  createLabel(editPiLabel)
+  createLabel(editPiLabel).then(res=>{
+    editPiLabel.labelColor = "";
+    editPiLabel.labelName = "";
+    editPiLabel.projectId = -1;
+    editPiLabel.labelId = undefined;
+  })
 }
 </script>
 
