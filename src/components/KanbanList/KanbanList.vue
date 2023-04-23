@@ -4,17 +4,19 @@ import {MoreFilled,Plus} from '@element-plus/icons-vue'
 import Todo from './Todo.vue';
 import {TodoDetail} from '@/types/Todo'
 import {KanbanDetail} from '@/types/KanbanList';
-import { ref,reactive,defineEmits ,defineProps,withDefaults} from 'vue';
+import { ref,reactive,watch,defineEmits,watchEffect ,defineProps,withDefaults} from 'vue';
 import draggable from 'vuedraggable'
 import TodoDetailView from './TodoDetail.vue';
+import { Obj } from '@popperjs/core';
 
 
 interface KanbanProps 
 {
   kanban: KanbanDetail
 }
+const pp = defineProps<KanbanProps>()
+const kanban =reactive(pp.kanban);
 
-const props = defineProps<KanbanProps>();
 const kanbanDisabled= ref<boolean>(false);
 
 const missionVisible = ref(false);
@@ -22,6 +24,7 @@ const missionVisible = ref(false);
 const missionDetail = ref<TodoDetail>({
   missionTitle:""
 });
+
 
 /**
  * 关闭窗口
@@ -32,12 +35,29 @@ function closeWin(): void {
   // 打开看板拖动事件
 }
 
-function addTodo(obj:Object):void {
-  if('oldIndex' in obj && 'newIndex' in obj){
-    const {oldIndex,newIndex} = obj;
-    console.log(oldIndex+" "+newIndex,"addTOdo");
-  }
+watch(kanban,(newV,oldV)=>{
+  console.log(kanban.missionList?.filter(a=>a.kanbanListId!=kanban.kanbanListId));
+  // 位置更新 , 让其直接通过索引值把自己的order设置成索引值
+  // kanban.missionList?.sort((a,b)=>{
+    // return   b.missionOrder-a.missionOrder
+    // b 减 a 是从大到小
+    // a - b 是从小到大
+  // })
+
+  // 写一个更新任务的事件
+  // updateMission(mission,kanbanId)
+
+  // console.log(`kanban ${props.kanban.listName} 我在增加` ,newV.missionList?.length, oldV.missionList?.length);
+  // console.log(`kanban ${kanban.listName}`,newV,oldV,);
+})
+
+/**
+ * 如果以后要用，这个里面用来更新其位置
+ */
+function updateKanban(obj:Object):void{
+  console.log(obj);
 }
+
 
 
 </script>
@@ -47,7 +67,7 @@ function addTodo(obj:Object):void {
   <div class="taskview">
     <div class="taskhead" >
       <div>
-        {{ props.kanban.listName }}
+        {{ kanban.listName }}
       </div>
       <div>
 				<el-dropdown class="menu-btn">
@@ -80,10 +100,13 @@ function addTodo(obj:Object):void {
 
     <draggable 
       :list="kanban.missionList" class="tasklist"
-      @add="addTodo"
+      :value="kanban.listName"
+      :json="kanban.listName"
+      :name="kanban.listName"
       :forceFallback="true"
+      @update="updateKanban"
       ghost-class="chosen" 
-      :group="'project'"
+      :group="'kanban'"
       :options="{}"
       :animation="300"
       :disabled="kanbanDisabled"
@@ -91,7 +114,8 @@ function addTodo(obj:Object):void {
       >
 
       <template #item="{element}">
-        <div>
+        <div  
+          >
           <Todo ref="todo" v-model:disabled="kanbanDisabled" :detail="element"></Todo>
         </div>
       </template>
