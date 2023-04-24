@@ -51,6 +51,10 @@ const API= {
        * POST 创建任务
        */
       CREATTE:"/project/mission",
+      /**
+       * POST 项目更新接口
+       */
+      CHANGE :'/project/mission/change',
     }
 
   }

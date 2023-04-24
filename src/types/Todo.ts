@@ -3,7 +3,7 @@ import { PiLabel } from "./Project"
 
 // 标准接口
 interface TodoDetail{
-  missionId?:number,
+  missionId?:string,
   missionTitle:string,
   missionIntro?:string,
   missionOrder?:number,

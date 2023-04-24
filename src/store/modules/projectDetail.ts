@@ -10,11 +10,14 @@ interface MemberState {
 
 export const useProjectDetailStore = defineStore('projectDetail',{
   state: (): MemberState => ({
-    projectId:0,
+    projectId:-1,
     projectDetail:{} as PiProject,
   }),
   getters: {
-
+    getProjectId(state):number{
+      if(state.projectId) return state.projectId
+      else return 0;
+    }
   },
   actions:{
     setProjectDetail(project: PiProject){

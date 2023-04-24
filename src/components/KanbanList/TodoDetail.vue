@@ -56,8 +56,7 @@ function saveClick(): void {
     ElMessage({ message: "请输入任务名", type: "warning" })
     return;
   }
-  const pid = Number((router.currentRoute.value.params || { id: -1 }).id);
-  createMission(props.todo, pid).then(res => {
+  createMission(props.todo).then(res => {
 
   }).catch(res => {
 

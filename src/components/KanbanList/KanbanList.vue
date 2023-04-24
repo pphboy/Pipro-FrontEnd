@@ -8,6 +8,9 @@ import { ref,reactive,watch,defineEmits,watchEffect ,defineProps,withDefaults} f
 import draggable from 'vuedraggable'
 import TodoDetailView from './TodoDetail.vue';
 import { Obj } from '@popperjs/core';
+import {updateMission} from '@/services/MissionService'
+import { KanbanChangeVo } from '@/services/vo/KanbanVo';
+import { checkboxGroupContextKey } from 'element-plus';
 
 
 interface KanbanProps 
@@ -15,7 +18,16 @@ interface KanbanProps
   kanban: KanbanDetail
 }
 const pp = defineProps<KanbanProps>()
-const kanban =reactive(pp.kanban);
+
+const kanban =reactive<KanbanDetail>(pp.kanban);
+
+// 通过这个监听器实时刷新 本页面 重新创建的kanban reactive 
+watch(()=>pp.kanban,()=>{
+  console.log("大看板更新");
+  kanban.listName =      pp.kanban.listName
+  kanban.kanbanListId =  pp.kanban.kanbanListId
+  kanban.missionList=    pp.kanban.missionList
+})
 
 const kanbanDisabled= ref<boolean>(false);
 
@@ -35,13 +47,22 @@ function closeWin(): void {
   // 打开看板拖动事件
 }
 
+// watch(kanban,(newV,oldV)=>{
 watch(kanban,(newV,oldV)=>{
-  console.log(kanban.missionList?.filter(a=>a.kanbanListId!=kanban.kanbanListId));
+  console.log("小看板更新");
+  const array = kanban.missionList?.filter(a=>a.kanbanListId!=kanban.kanbanListId)
+  // 只修改当前看板 有 不一样的KanbanID的值
+  if(array?.length){
+    const {missionId} = array[0];
+    const kanbanView: KanbanChangeVo = { missionId, toKanbanId :kanban.kanbanListId};
+    console.log(kanbanView);
+    updateMission(kanbanView);
+  }
   // 位置更新 , 让其直接通过索引值把自己的order设置成索引值
   // kanban.missionList?.sort((a,b)=>{
-    // return   b.missionOrder-a.missionOrder
-    // b 减 a 是从大到小
-    // a - b 是从小到大
+  //   return   b.missionOrder-a.missionOrder
+  //   // b 减 a 是从大到小
+  //   // a - b 是从小到大
   // })
 
   // 写一个更新任务的事件

@@ -3,7 +3,7 @@ import axios from '@/utils/axios';
 import { PiProject,PiLabel } from '@/types/Project'
 import { ElLoading, ElMessage, ElNotification } from 'element-plus';
 
-import { getProjectDetail } from "./ProjectDetailService";
+import {refreshProject } from "./ProjectDetailService";
 
 /**
  * 创建标签
@@ -20,7 +20,7 @@ export async function createLabel(label:PiLabel): Promise<boolean> {
       if (res.data.status) {
         ElMessage.success(res.data.message)
         // 更新整个项目
-        getProjectDetail(label.projectId);
+        refreshProject();
         resolve(true)
       }else 
         reject(false);
@@ -54,7 +54,7 @@ export async function deleteLabelById(label: PiLabel): Promise<boolean> {
           message:`标签 [${label.labelName}] 删除成功`,
           type:"success"
         })
-        getProjectDetail(label.projectId);
+        refreshProject();
         resolve(true)
       }else 
         reject(false)

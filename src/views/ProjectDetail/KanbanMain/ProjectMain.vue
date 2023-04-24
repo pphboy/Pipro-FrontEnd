@@ -5,11 +5,11 @@ import { useRouter } from 'vue-router';
 
 import { getProjectDetail } from '@/services/ProjectDetailService';
 import { useProjectDetailStore } from "@/store/modules/projectDetail";
+import {watch} from 'vue'
 
 const router = useRouter();
 
 const projectDetailStore = useProjectDetailStore();
-
 
 const id = Number(`${router.currentRoute.value.params.id}`);
 // 这个操作只是进行转换这个ID的值
@@ -32,6 +32,7 @@ getProjectDetail(id).then(res=>{
     // add 就是 把 pinia中选中的 todo，更新到服务器
 
    -->
+
   <div class="kanban-list">
     <TaskList v-for="(k,i) in projectDetailStore.projectDetail.kanbanList"
       :kanban="k"></TaskList>
