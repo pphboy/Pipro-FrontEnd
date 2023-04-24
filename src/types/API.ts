@@ -55,6 +55,23 @@ const API= {
        * POST 项目更新接口
        */
       CHANGE :'/project/mission/change',
+    },
+    /**
+     * 看板的接口
+     */
+    KANBAN:{
+      /**
+       * PUT 创建看板
+       */
+      CREATE:"/project/kanban",
+      /**
+       * POST 更新看板
+       */
+      UPDATE:"/project/kanban",
+      /**
+       * DELETE 删除
+       */
+      DELETE:"/project/kanban/",
     }
 
   }

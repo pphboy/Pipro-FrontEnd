@@ -47,8 +47,9 @@ function closeWin(): void {
 function getMemberName(list:Set<PiMember> | undefined):string{
   if(list == undefined || list.size== 0){
     return "DEFAULT"
+  }else {
+    return [...list][0].memberName;
   }
-  return [...list][0].memberName;
 }
 </script>
 

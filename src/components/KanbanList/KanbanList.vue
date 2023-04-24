@@ -9,13 +9,14 @@ import draggable from 'vuedraggable'
 import TodoDetailView from './TodoDetail.vue';
 import { Obj } from '@popperjs/core';
 import {updateMission} from '@/services/MissionService'
-import { KanbanChangeVo } from '@/services/vo/KanbanVo';
-import { checkboxGroupContextKey } from 'element-plus';
+import { KanbanChangeVo, KanbanUpdateVo} from '@/services/vo/KanbanVo';
+import { checkboxGroupContextKey, ElMessage } from 'element-plus';
+import { updateKanban as updKanban } from '@/services/KanbanService';
 
 
 interface KanbanProps 
 {
-  kanban: KanbanDetail
+  kanban: KanbanDetail,
 }
 const pp = defineProps<KanbanProps>()
 
@@ -28,6 +29,7 @@ watch(()=>pp.kanban,()=>{
   kanban.kanbanListId =  pp.kanban.kanbanListId
   kanban.missionList=    pp.kanban.missionList
 })
+
 
 const kanbanDisabled= ref<boolean>(false);
 
@@ -64,13 +66,9 @@ watch(kanban,(newV,oldV)=>{
   //   // b 减 a 是从大到小
   //   // a - b 是从小到大
   // })
-
-  // 写一个更新任务的事件
-  // updateMission(mission,kanbanId)
-
-  // console.log(`kanban ${props.kanban.listName} 我在增加` ,newV.missionList?.length, oldV.missionList?.length);
-  // console.log(`kanban ${kanban.listName}`,newV,oldV,);
 })
+
+const kanbanVisible = ref<boolean>(false);
 
 /**
  * 如果以后要用，这个里面用来更新其位置
@@ -79,7 +77,39 @@ function updateKanban(obj:Object):void{
   console.log(obj);
 }
 
+/**
+ * 清除看板的信息
+ */
+function clearKanban(){
+  kanbanVisible.value = false;
+  // 手动更新名字 [doge]
+}
 
+function createEvent(){
+  if(!pp.kanban.listName){
+    ElMessage.warning("看板名不能为空")
+  }
+  const kanbanUpdate:KanbanUpdateVo = {
+    kanbanId:pp.kanban.kanbanListId,
+    kanbanName:pp.kanban.listName,
+  }
+  updKanban(kanbanUpdate).then(()=>{
+
+  }).catch(()=>{
+
+  }).finally(()=>{
+    // 最后清空看板
+    clearKanban();
+  })
+}
+
+function beforeCloseKanbanUpdate(done :Function){
+  if(!pp.kanban.listName){
+    ElMessage.warning("看板名不能为空，请输入正确的看板名后再取消")
+  }else {
+    done()
+  }
+}
 
 </script>
 
@@ -88,7 +118,7 @@ function updateKanban(obj:Object):void{
   <div class="taskview">
     <div class="taskhead" >
       <div>
-        {{ kanban.listName }}
+        {{ pp.kanban.listName }}
       </div>
       <div>
 				<el-dropdown class="menu-btn">
@@ -103,7 +133,11 @@ function updateKanban(obj:Object):void{
 					</span>
 					<template #dropdown>
 						<el-dropdown-menu>
-							<el-dropdown-item>改名</el-dropdown-item>
+							<el-dropdown-item @click.native="kanbanVisible=true">重命名</el-dropdown-item>
+							<el-dropdown-item>----</el-dropdown-item>
+							<el-dropdown-item>----</el-dropdown-item>
+							<el-dropdown-item>----</el-dropdown-item>
+							<el-dropdown-item>删除看板</el-dropdown-item>
 						</el-dropdown-menu>
 					</template>
 				</el-dropdown>
@@ -146,6 +180,18 @@ function updateKanban(obj:Object):void{
     <el-dialog @closed="closeWin" v-model="missionVisible" width="50%">
       <TodoDetailView :kanban-list-id="kanban.kanbanListId" @close="closeWin" :todo="missionDetail"></TodoDetailView>
     </el-dialog>
+
+    <!-- 看板重命名 弹窗 -->
+    <el-dialog  v-model="kanbanVisible" :before-close="beforeCloseKanbanUpdate" width="30%">
+      <el-form label-width="60px">
+        <el-form-item  label="看板名">
+          <el-input maxlength="20" v-model.trim="pp.kanban.listName" placeholder="请输入看板名" />
+        </el-form-item>
+        <el-form-item>
+          <el-button @click="createEvent">添加</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 
 </template>
@@ -183,8 +229,6 @@ function updateKanban(obj:Object):void{
     margin-right: 17px;
   }
 
-  .taskhead :nth-child(2){
-  }
 
   .chosen{ 
     border: 1px solid black;

@@ -1,11 +1,12 @@
 <script setup lang=ts>
-import TaskList from '@/components/KanbanList/KanbanList.vue';
-import Test from '@/components/KanbanList/Test.vue'
+import KanbanList from '@/components/KanbanList/KanbanList.vue';
+import KanbanMenu from '@/components/KanbanList/KanbanMenu.vue';
 import { useRouter } from 'vue-router';
-
+import { KanbanDetail } from '@/types/KanbanList';
 import { getProjectDetail } from '@/services/ProjectDetailService';
 import { useProjectDetailStore } from "@/store/modules/projectDetail";
 import {watch} from 'vue'
+
 
 const router = useRouter();
 
@@ -32,10 +33,11 @@ getProjectDetail(id).then(res=>{
     // add 就是 把 pinia中选中的 todo，更新到服务器
 
    -->
-
   <div class="kanban-list">
-    <TaskList v-for="(k,i) in projectDetailStore.projectDetail.kanbanList"
-      :kanban="k"></TaskList>
+    <kanban-list v-for="(k,i) in projectDetailStore.projectDetail.kanbanList"
+      :kanban="k"></kanban-list>
+
+      <KanbanMenu :default-message-show="!(projectDetailStore.projectDetail.kanbanList?.length)"></KanbanMenu>
   </div>
 </template>
 

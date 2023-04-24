@@ -28,7 +28,6 @@ export async function createMission(todo: TodoDetail): Promise<boolean>{
             type:"success",
             message: data.message
           })
-          getProjectDetail(7)
           refreshProject();
           resolve(true);
         } else {
