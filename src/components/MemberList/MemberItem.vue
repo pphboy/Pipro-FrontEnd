@@ -2,10 +2,11 @@
 import { ref, reactive, Ref, defineProps } from "vue";
 import { PiMember } from "@/types/Member";
 import { getHeadImage } from "@/utils/ProjectTool";
-import { addMemberToProject } from "@/services/MemberService";
+import { addMemberToProject,deleteMemberFromProject } from "@/services/MemberService";
 import { ElMessageBox, ElMessage } from "element-plus";
 import { AddMemberDto } from "@/services/dto/ProjectMemberDto";
 import { useProjectDetailStore } from "@/store/modules/projectDetail";
+import { remove } from "lodash";
 
 const projectDetailStore = useProjectDetailStore();
 
@@ -17,10 +18,14 @@ interface MemberProps {
 const props = defineProps<MemberProps>();
 
 
+/**
+ * 添加一个成员进来
+ * @param member 
+ */
 function addMember(member:PiMember):void {
   ElMessageBox.confirm(
     `你确定添加[${member.memberName}]到项目[${projectDetailStore.projectDetail.projectName}]中吗？`,
-    '请注解，您正在添加成员到项目中',
+    '请注意，您正在添加成员到项目中',
     {
       confirmButtonText: '确认',
       cancelButtonText: '取消',
@@ -37,6 +42,33 @@ function addMember(member:PiMember):void {
         console.log("取消了操作");
     })
 }
+
+/**
+ * 将成员从本项目中移除出去
+ * @param member 
+ */
+function removeMember(member:PiMember):void {
+  ElMessageBox.confirm(
+    `你确定将 [${member.memberName}] 踢除项目[${projectDetailStore.projectDetail.projectName}] 吗？`,
+    '请注意，您正在踢除成员',
+    {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'error',
+    }
+  )
+    .then(() => {
+      deleteMemberFromProject({
+        memberId:member.memberId,
+        projectId:projectDetailStore.projectDetail.projectId
+      })
+    })
+    .catch(() => {
+        console.log("取消踢除了操作");
+    })
+}
+
+
 
 </script>
 
@@ -57,10 +89,10 @@ function addMember(member:PiMember):void {
           </div>
           <div v-else>
             <div>
-              <el-button type="primary" size="small">设置权限</el-button>
+              <el-button type="primary" title="不好意思，这个按钮还没写捏" size="small">设置权限</el-button>
             </div>
             <div>
-              <el-button type="danger" size="small">踢除</el-button>
+              <el-button type="danger" @click="removeMember(member)" size="small">踢除</el-button>
             </div>
           </div>
         </div>

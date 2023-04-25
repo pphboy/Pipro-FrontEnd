@@ -5,6 +5,6 @@ export interface AddMemberDto{
 }
 
 export interface DeleteMemberDto{
-  memberId:number,
-  projectId:number,
+  memberId?:number,
+  projectId?:number,
 }
