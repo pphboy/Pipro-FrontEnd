@@ -119,6 +119,7 @@ const createSubmit = async (formEl: FormInstance | undefined) => {
       <el-button class="nav-btn" @click="$router.push({name:'ProjectTodoList'})">列表</el-button>
       <el-button class="nav-btn" @click="$router.push({name:'ProjectFileList'})">文件</el-button>
       <el-button class="nav-btn" @click="$router.push({name:'ProjectDocumentList'})">文档</el-button>
+      <el-button class="nav-btn" @click="$router.push({name:'MemberList'})">成员</el-button>
       <el-button class="nav-btn" @click="$router.push({name:'ProjectSettings'})">设置</el-button>
     </div>
   </header>

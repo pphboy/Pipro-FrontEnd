@@ -4,6 +4,7 @@ import { PiProject } from '@/types/Project'
 import { ElLoading } from 'element-plus';
 import { useProjectDetailStore } from "@/store/modules/projectDetail";
 import { MissionTodayAndLastDto } from "./dto/MissionTodayAndLastDto";
+import { getMemberList } from "./MemberService";
 import { getAllMissionList } from "./ProjectListService";
 
 /**
@@ -46,6 +47,8 @@ export async function refreshProject(): Promise<PiProject> {
   getMissionListAndOverToday();
   // 刷新首页 [的我的任务],反正这些请求不在一个接口里，不怕
   getAllMissionList();
+  // 获取未加入本项目的用户列表
+  getMemberList();
   return getProjectDetail(projectId())
 }
 

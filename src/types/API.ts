@@ -15,6 +15,23 @@ const API= {
   },
   PROJECT:{
     /**
+     * GET 获取全局所有用户的列表
+     */
+    MEMBER:{
+      /**
+       * GET 获取全局所有用户列表
+       */
+      LIST:(projectId?:number):string =>`/project/member/${projectId}`,
+      /**
+       * POST 为项目添加用户 
+       */
+      DELETE:'/project/member/delete',
+      /**
+       * POST 为项目添加用户 
+       */
+      ADD:'/project/member',
+    },
+    /**
      * GET 获取当前用户，所有合法的任务
      */
     MISSION_LIST:'/project/missions',

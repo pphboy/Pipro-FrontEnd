@@ -10,6 +10,7 @@ import ProjectTodoList from "@/views/ProjectDetail/TodoList/TodoList.vue";
 import ProjectFileList from "@/views/ProjectDetail/FileList/FileList.vue";
 import ProjectDocumentList from "@/views/ProjectDetail/DocumentList/DocumentList.vue";
 import ProjectSettings from "@/views/ProjectDetail/ProjectSettings/ProjectSettings.vue";
+import MemberList from "@/views/ProjectDetail/MemberList/MemberList.vue"
 
 // Member
 import MemberMain from "@/views/MemberMain/MemberMain.vue";
@@ -70,6 +71,11 @@ const routes:RouteRecordRaw[] = [
         path: "Main",
         name: "ProjectDetailMain",
         component: ProjectMain,
+      },
+      {
+        path: "MemberList",
+        name: "MemberList",
+        component:MemberList,
       },
       {
         path: "List",
