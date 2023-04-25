@@ -17,12 +17,12 @@
 
 <template>
 	<el-card class='project-card'>
-		<div>
-			<span class="project-card-title">{{ project.projectName }}</span>
-		</div>
 		<div class='detail-line'>
-			<span style="float: left;">{{ project.projectIntro }}</span>
-			<span style="float: right;">
+			<div>
+				<div class="project-card-title">{{ project.projectName }}</div>
+				<div>{{ project.projectIntro.length > 30 ? `${project.projectIntro.substring(0,30)}...`:project.projectIntro }}</div>
+			</div>
+			<div >
 				<el-dropdown class="menu-btn">
 					<el-button style="border: 0;padding:10px;">
 						<el-icon><Setting /></el-icon>
@@ -42,7 +42,7 @@
 						</el-dropdown-menu>
 					</template>
 				</el-dropdown>
-			</span>
+			</div>
 			<div style="clear: both;"></div>
 		</div>
 	</el-card>
@@ -60,8 +60,12 @@
 		margin: 5px;
 	}
 	.detail-line {
-		/*display: flex;*/
-		margin:  10px 0;
+		width: 335px;
+		display: flex;
+		justify-content: space-between;
+	}
+	.detail-line>div:nth-child(1){
+		width: 320px;
 	}
 	.project-card-title{
 		margin: 10px 0;

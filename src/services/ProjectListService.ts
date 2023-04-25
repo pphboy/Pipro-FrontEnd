@@ -4,6 +4,8 @@ import {PiProject} from '@/types/Project'
 import { ElLoading } from 'element-plus';
 import { useGlobalStore } from "@/store/modules/global";
 import { useProjectListStore } from "@/store/modules/projectList";
+import { TodoDetail } from "@/types/Todo";
+import { ProjectMissionDto } from "./dto/ProjectMissionDto";
 
 
 /**
@@ -54,6 +56,22 @@ export async function updateProject(project: PiProject):Promise<boolean>{
         resolve(true)
       }else {
         resolve(false)
+      }
+    }).catch((err)=>{
+      console.log(`[getProjectListByMemberId] `,err);
+      reject(false);
+    })
+  });
+}
+
+export async function getAllMissionList():Promise<ProjectMissionDto[]>{
+  return new Promise<ProjectMissionDto[]>((resolve,reject)=>{
+    axios.get(API.PROJECT.MISSION_LIST).then(res=>{
+      if(res.data.status){
+        useProjectListStore().missionList = res.data.data;
+        resolve(res.data.data)
+      }else {
+        resolve(res.data.data)
       }
     }).catch((err)=>{
       console.log(`[getProjectListByMemberId] `,err);

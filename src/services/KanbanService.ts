@@ -3,7 +3,7 @@ import axios from '@/utils/axios';
 import { ElLoading, ElMessage} from 'element-plus';
 
 import {refreshProject } from "./ProjectDetailService";
-import { KanbanCreateVo, KanbanUpdateVo } from "./vo/KanbanVo";
+import { KanbanCreateVo, KanbanUpdateVo } from "./dto/KanbanVo";
 
 // 看板改名不需要刷新全局
 

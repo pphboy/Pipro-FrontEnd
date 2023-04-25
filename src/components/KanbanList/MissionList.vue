@@ -3,14 +3,14 @@
 import {MoreFilled,Plus} from '@element-plus/icons-vue'
 import Todo from './Todo.vue';
 import {TodoDetail} from '@/types/Todo'
+import {KanbanDetail} from '@/types/KanbanList';
 import { ref,reactive,watch,defineEmits,watchEffect ,defineProps,withDefaults} from 'vue';
 import draggable from 'vuedraggable'
-import TodoDetailView from '@/components/KanbanList/TodoDetail.vue';
-import { ProjectMissionDto } from '@/services/dto/ProjectMissionDto';
+import TodoDetailView from './TodoDetail.vue';
 
 interface KanbanProps 
 {
-  projectMissionList:ProjectMissionDto[],
+  kanban: KanbanDetail,
 }
 const props = defineProps<KanbanProps>()
 
@@ -41,15 +41,15 @@ function closeWin(): void {
 
     <div >
       <el-button  class="add-btn">
-        <el-icon>我的任务</el-icon>
+        <el-icon>{{ kanban.listName }}</el-icon>
       </el-button>
     </div>
 
     <draggable 
-      :list="projectMissionList" class="tasklist"
+      :list="kanban.missionList" class="tasklist"
       :forceFallback="true"
       ghost-class="chosen" 
-      :group="'IndexGroup'"
+      :group="kanban.listName"
       :disabled="true"
       :options="{}"
       :animation="300"
@@ -62,7 +62,12 @@ function closeWin(): void {
         </div>
       </template>
     </draggable>
-    
+
+    <!-- 详情 弹窗 -->
+    <el-dialog @closed="closeWin" v-model="missionVisible" width="50%">
+      <TodoDetailView :kanban-list-id="missionDetail.kanbanListId" @close="closeWin" :todo="missionDetail"></TodoDetailView>
+    </el-dialog>
+
   </div>
 
 </template>

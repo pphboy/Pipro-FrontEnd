@@ -15,6 +15,10 @@ const API= {
   },
   PROJECT:{
     /**
+     * GET 获取当前用户，所有合法的任务
+     */
+    MISSION_LIST:'/project/missions',
+    /**
      * 获取当前用户所有项目
      */
     ALL_PROJECT:'/project/list',
@@ -22,6 +26,10 @@ const API= {
      * 创建项目
      */
     CREATE:'/project/create',
+    /**
+     * GET 获取当前用户的当前任务
+     */
+    LIST:(id?:number):string=>`/project/${id}/list`,
     /**
      * 获取当前项目详情
      * /project/detail/{id}

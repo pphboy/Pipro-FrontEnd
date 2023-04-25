@@ -1,5 +1,5 @@
 <script setup lang=ts>
-import { ref, computed,onMounted, reactive, defineProps, defineEmits } from "vue";
+import { ref, computed,onMounted,watch, reactive, defineProps, defineEmits } from "vue";
 import { ElMessageBox, ElMessage } from 'element-plus'
 import { TodoDetail } from "@/types/Todo";
 import { getHeadImage } from '@/utils/ProjectTool';
@@ -20,6 +20,8 @@ const props = defineProps<{
   todo: TodoDetail
   kanbanListId?: number,
 }>();
+
+// Todo一旦改变，就直接重置List为Set
 
 onMounted(()=>{
   if (props.todo.memberList == undefined) {
@@ -70,16 +72,23 @@ function saveClick(): void {
 // 默认值就是labelList嘛，这个没有设置好，确实有点小问题
 const labelList = ref((props.todo.labelList || []).map(a=>a.labelId))
 
-const rmlist = ref([])
 
 const userChooseVisible = ref(false);
 
+function checkMemberListType(){
+  if(!(props.todo.memberList instanceof Set)){
+    props.todo.memberList = new Set<PiMember>(props.todo.memberList)
+  }
+}
+
 function addMember(member: PiMember): void {
+  checkMemberListType();
   if(props.todo.memberList){
     props.todo.memberList.add(member)
   }
 }
 function removeMember(member: PiMember): void {
+  checkMemberListType();
   if (props.todo.memberList != undefined) {
     props.todo.memberList.delete(member)
   }

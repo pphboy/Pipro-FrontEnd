@@ -19,7 +19,8 @@ instance.interceptors.request.use(function(config){
 
   axios.defaults.headers.common['Authorization'] = useGlobalStore().token;
 
-  console.log("request config" ,config);
+  // console.log("request config" ,config);
+
   return config;
 },function(error) {
   return Promise.reject(error);

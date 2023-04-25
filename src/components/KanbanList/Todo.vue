@@ -48,7 +48,10 @@ function getMemberName(list:Set<PiMember> | undefined):string{
   if(list == undefined || list.size== 0){
     return "DEFAULT"
   }else {
-    return [...list][0].memberName;
+    const arr = Array.from(list);
+    if(arr.length){
+      return arr[0].memberName;
+    }else return 'DEFAULT'
   }
 }
 </script>

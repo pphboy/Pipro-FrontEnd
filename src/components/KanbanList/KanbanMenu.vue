@@ -1,6 +1,6 @@
 <script setup lang=ts>
 import {MoreFilled,Plus} from '@element-plus/icons-vue'
-import {KanbanCreateVo} from '@/services/vo/KanbanVo'
+import {KanbanCreateVo} from '@/services/dto/KanbanVo'
 import { createKanban } from '@/services/KanbanService'
 import { ref,reactive,defineProps} from 'vue';
 import { ElMessage } from 'element-plus';
@@ -29,12 +29,14 @@ function clearKanban(){
 }
 
 
-const kanbanInfo:KanbanCreateVo = reactive({kanbanName:"",projectId:projectDetailStore.projectDetail.projectId})
+const kanbanInfo:KanbanCreateVo = reactive({kanbanName:"",})
 
 function createEvent(){
   if(!kanbanInfo.kanbanName){
     ElMessage.warning("看板名不能为空")
+
   }
+  kanbanInfo.projectId = projectDetailStore.projectDetail.projectId;
   createKanban(kanbanInfo).then(()=>{
 
   }).catch(()=>{

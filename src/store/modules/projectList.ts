@@ -1,14 +1,17 @@
 import { defineStore } from 'pinia';
 
 import { PiProject } from '@/types/Project'
+import { ProjectMissionDto } from '@/services/dto/ProjectMissionDto';
 
 interface MemberState {
-  projectList:PiProject[]
+  projectList:PiProject[],
+  missionList:ProjectMissionDto[],
 }
 
 export const useProjectListStore = defineStore('project',{
   state: (): MemberState => ({
-    projectList:[]
+    projectList:[],
+    missionList:[],
   }),
   getters: {
     getProjectList(state):PiProject[]{

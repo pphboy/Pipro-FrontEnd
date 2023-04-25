@@ -9,7 +9,7 @@ import draggable from 'vuedraggable'
 import TodoDetailView from './TodoDetail.vue';
 import { Obj } from '@popperjs/core';
 import {updateMission} from '@/services/MissionService'
-import { KanbanChangeVo, KanbanUpdateVo} from '@/services/vo/KanbanVo';
+import { KanbanChangeVo, KanbanUpdateVo} from '@/services/dto/KanbanVo';
 import { checkboxGroupContextKey, ElMessage } from 'element-plus';
 import { updateKanban as updKanban } from '@/services/KanbanService';
 

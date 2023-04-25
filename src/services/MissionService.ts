@@ -3,7 +3,7 @@ import axios from '@/utils/axios';
 import { PiProject,PiLabel } from '@/types/Project'
 import { ElLoading, ElMessage, ElNotification } from 'element-plus';
 import { refreshProject,getProjectDetail } from "./ProjectDetailService";
-import { KanbanChangeVo } from "@/services/vo/KanbanVo";
+import { KanbanChangeVo } from "@/services/dto/KanbanVo";
 import { TodoDetail } from "@/types/Todo";
 
 

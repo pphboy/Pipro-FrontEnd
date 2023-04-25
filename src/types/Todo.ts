@@ -2,6 +2,9 @@ import { PiMember } from "./Member"
 import { PiLabel } from "./Project"
 
 // 标准接口
+/**
+ * 这里没写好，对应后端的ProjectMission
+ */
 interface TodoDetail{
   missionId?:string,
   missionTitle:string,

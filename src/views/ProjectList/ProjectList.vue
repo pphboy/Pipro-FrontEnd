@@ -2,8 +2,13 @@
 import Header from '@/components/Header.vue';
 import TaskList from './TaskList/TaskList.vue'
 import ProjectsView from './ProjectsView/ProjectsView.vue'
+import { useProjectListStore } from '@/store/modules/projectList';
+import { getAllMissionList } from '@/services/ProjectListService';
+
+const projectListStore = useProjectListStore();
 
 
+getAllMissionList();
 </script>
 
 <template>
@@ -11,9 +16,8 @@ import ProjectsView from './ProjectsView/ProjectsView.vue'
 
   <div class="project-main" >
       <div>
-        <h3>我的任务</h3>
         <!-- 任务列表  -->
-        <TaskList></TaskList>
+        <TaskList :project-mission-list="projectListStore.missionList"></TaskList>
       </div>
       <div>
         <h3>参与项目</h3>
