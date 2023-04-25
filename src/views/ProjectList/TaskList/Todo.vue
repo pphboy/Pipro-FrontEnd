@@ -33,7 +33,7 @@ function todoClick(): void {
 
 function todoStatusChange(status: boolean): void {
   // 如果 true false 表示 取消和完成任务
-  console.log(props.detail.projectMission.missionTitle + " " + status);
+  console.log(props.detail.missionTitle + " " + status);
 }
 
 /**
@@ -72,15 +72,15 @@ function getMemberName(list:Set<PiMember> | undefined):string{
           <el-checkbox @click.stop @change="todoStatusChange"></el-checkbox>
         </div>
         <div>
-          <div>{{ props.detail.projectMission.missionTitle }}</div>
-          <p>结束时间: {{ props.detail.projectMission.endTime }}</p>
-          <p>项目名 : {{ props.detail.project.projectName }}</p>
+          <div>{{ props.detail.missionTitle }}</div>
+          <p>结束时间: {{ props.detail.endTime }}</p>
+          <p>项目名 : {{ props.detail.projectName }}</p>
         </div>
       </div>
 
       <div>
         <!-- 没有人就是一个默认头像 -->
-        <img class="head-image" :src="getHeadImage(getMemberName(props.detail.projectMission.memberList)) " alt=""
+        <img class="head-image" :src="getHeadImage(getMemberName(props.detail.memberList)) " alt=""
           style="width: 50px; height: 50px;">
       </div>
     </div>
@@ -88,7 +88,7 @@ function getMemberName(list:Set<PiMember> | undefined):string{
   <!-- 详情 弹窗 -->
   <!-- <el-dialog @closed="closeWin" v-model="detailVisible" width="50%"> -->
   <el-dialog @closed="closeWin" width="50%">
-    <TodoDetailView @close="closeWin" :todo="detail.projectMission"></TodoDetailView> -->
+    <TodoDetailView @close="closeWin" :todo="detail"></TodoDetailView> -->
   </el-dialog>
 </template>
 

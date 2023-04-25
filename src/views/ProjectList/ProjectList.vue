@@ -20,7 +20,7 @@ getAllMissionList();
         <TaskList :project-mission-list="projectListStore.missionList"></TaskList>
       </div>
       <div>
-        <h3>参与项目</h3>
+        <div style="font-size:30px;padding:5px;">参与项目</div>
         <!-- 项目列表 -->
         <ProjectsView></ProjectsView>
         

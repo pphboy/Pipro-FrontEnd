@@ -84,6 +84,9 @@ function closeWin(): void {
   height: calc(80vh);
   overflow-y: auto;
   overflow-x: hidden;
+		border: 1px solid #ccc;
+		padding: 2px;
+		border-radius: 3px;
   /* border: 1px solid #ccc;
   border-radius: 4px; */
   }

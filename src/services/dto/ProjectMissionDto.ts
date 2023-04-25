@@ -1,8 +1,17 @@
 import { PiProject } from "@/types/Project";
-import { TodoDetail } from "@/types/Todo";
-
+import { PiLabel } from "@/types/Project";
+import { PiMember } from "@/types/Member";
 
 export interface ProjectMissionDto{
-  project:PiProject,
-  projectMission:TodoDetail,
+  missionId?:string,
+  missionTitle:string,
+  missionIntro?:string,
+  missionOrder?:number,
+  kanbanListId?:number,
+  projectId:number,
+  projectName:string,
+  memberList?:Set<PiMember>,
+  labelList?:Array<PiLabel>,
+  endTime?:string,
+  missionStatus?:boolean
 }

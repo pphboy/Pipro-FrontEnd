@@ -27,7 +27,9 @@
 		border: 1px solid #ccc;
 		border-radius: 3px;
 		overflow-y: auto;
-  		padding: 2px;
-		height: 700px;
-	}
+		padding: 2px;
+		height: calc(80vh);
+		overflow-y: auto;
+		overflow-x: hidden;
+  }
 </style>
