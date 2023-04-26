@@ -2,6 +2,7 @@
 	import {Setting} from '@element-plus/icons-vue'
 	import { defineProps ,withDefaults } from 'vue'
 	import {PiProject} from '@/types/Project'
+	
 	interface ProjectCardProps{
 		project:PiProject
 	}
@@ -28,12 +29,6 @@
 						<el-icon><Setting /></el-icon>
 					</el-button>
 
-					<span class="el-dropdown-link">
-						Dropdown List
-						<el-icon class="el-icon--right">
-							<arrow-down />
-						</el-icon>
-					</span>
 					<template #dropdown>
 						<el-dropdown-menu>
 							<el-dropdown-item>进入项目</el-dropdown-item>

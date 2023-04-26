@@ -4,7 +4,8 @@ import {ref,reactive,watch,computed} from "vue";
 import { ElTree,TreeNode} from 'element-plus'
 import { FilterNodeMethodFunction, FilterValue } from "element-plus/es/components/tree/src/tree.type";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
-import {PiFile} from '@/types/File';
+import {PiFile,PiFileDirectory,fakeData} from '@/types/File';
+import FileItemList from '@/components/FileList/FileItemList.vue'
 
 interface Tree {
   id: number
@@ -12,12 +13,18 @@ interface Tree {
   children?: Tree[]
 }
 
+const fakeList = ref<PiFileDirectory[]>([fakeData]);
+
+const defaultFileDirectory = ref<PiFileDirectory>();
+
+defaultFileDirectory.value = fakeList.value[0]
+
 const filterText = ref('')
 const treeRef = ref<InstanceType<typeof ElTree>>()
 
 const defaultProps = {
-  children: 'children',
-  label: 'label',
+  label:'fileDirectoryTitle',
+  children:'childDirectoryList',
 }
 
 watch(filterText, (val) => {
@@ -32,352 +39,56 @@ const filterNode :FilterNodeMethodFunction= (value: FilterValue, data:TreeNodeDa
   return data.label.includes(value)
 }
 
-const data: Tree[] = [
-  {
-    id: 1,
-    label: 'Level one 1',
-    children: [
-      {
-        id: 4,
-        label: 'Level two 1-1',
-        children: [
-          {
-            id: 9,
-            label: 'Level three 1-1-1',
-          },
-          {
-            id: 10,
-            label: 'Level three 1-1-2',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 2,
-    label: 'Level one 2',
-    children: [
-      {
-        id: 5,
-        label: 'Level two 2-1',
-      },
-      {
-        id: 6,
-        label: 'Level two 2-2',
-      },
-    ],
-  },
-  {
-    id: 3,
-    label: 'Level one 3',
-    children: [
-      {
-        id: 7,
-        label: 'Level two 3-1',
-      },
-      {
-        id: 8,
-        label: 'Level two 3-2',
-      },
-    ],
-  },
-]
 
-const nodeClick = function (obj:TreeNode):void {
-  if("children" in obj){
-    console.log("有子元素，啥也不干，nodeClick",obj?.children);
-  }else {
-    console.log("no child，请求文件列表");
-  }
-} ;
+const nodeClick = function (obj:PiFileDirectory):void {
+    console.log("no child，请求文件列表",obj);
+    defaultFileDirectory.value = obj;
+};
 
 const openRightMenu = function(obj:Object,data:TreeNode,node:TreeNode):void {
   console.log("openRightMenu",obj,"\ndata",data,"\nnode",node);
 }
 
-/**
- * file table
- */
-const search = ref('')
-const filterTableData = computed(() =>
-  tableData.filter(
-    (data) =>
-      !search.value ||
-      data.filename.toLowerCase().includes(search.value.toLowerCase())
-  )
-)
-const handleEdit = (index: number, row: PiFile) => {
-  console.log(index, row)
-}
-const handleDelete = (index: number, row: PiFile) => {
-  console.log(index, row)
-}
 
-const tableData:PiFile[] = [
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:3
-  },
-  {
-    filename:'AbcGGG.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:4
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:2
-  },
-
-,
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:3
-  },
-  {
-    filename:'AbcGGG.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:4
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:2
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:1
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:3
-  },
-  {
-    filename:'AbcGGG.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:4
-  },
-  {
-    filename:'Abc.xxx',
-    createTime: '2016-05-03',
-    filePath: 'Markpi',
-    fileId:2
-  },
-
-] as PiFile[];
 </script>
 
 <template>
   <div class="file-list">
     <div class="side">
+        <div class="filelist-text">文件夹列表</div>
         <el-input v-model="filterText" placeholder="Filter keyword" />
-
         <el-tree
           ref="treeRef"
           class="filter-tree"
-          :data="data"
+          :data="fakeList"
           :props="defaultProps"
           default-expand-all
           @node-click="nodeClick"
-          @node-contextmenu="openRightMenu"
           :filter-node-method="filterNode"
         >
         <template #default="{node,data}">
-          <div>
-              <el-dropdown trigger="contextmenu">
-                  <span class="el-dropdown-link">
-                    <span class="custom-tree-node">
-                    <span>{{ node.label }}</span>
+              <el-dropdown trigger="contextmenu" >
+                  <!-- 如果不设置这个最小宽度，点击item是没有反应的，必须要点字，设置后可直接点击item可触发 -->
+                  <span class="el-dropdown-link" style="min-width:230px;">
+                    <span class="custom-tree-node" >
+                    <span> {{ data.fileDirectoryTitle  }}</span>
                   </span>
                     
                   </span>
                   <template #dropdown>
                     <el-dropdown-menu>
+                      <el-dropdown-item>上传文件</el-dropdown-item>
                       <el-dropdown-item>重命名</el-dropdown-item>
                       <el-dropdown-item>删除</el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
               </el-dropdown>
-          </div>
         </template>
       </el-tree>
 
     </div>
     <div class="list-main">
-      <el-table :data="filterTableData" style="width: 100%">
-          <el-table-column label="FileID" prop="fileId" />
-          <el-table-column label="Filename" prop="filename" />
-          <el-table-column align="right">
-            <template #header>
-              <el-input v-model="search" size="small" placeholder="搜索文件名" />
-            </template>
-            <template #default="scope">
-              <el-button  size="small" @click="handleEdit(scope.$index, scope.row)"
-                >下载</el-button
-              >
-              <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
-                >重命名</el-button
-              >
-              <el-button
-                size="small"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)"
-                >删除</el-button
-              >
-            </template>
-          </el-table-column>
-        </el-table>
+      <FileItemList :file-directory="defaultFileDirectory"></FileItemList>
     </div>
   </div>
 
@@ -400,8 +111,8 @@ const tableData:PiFile[] = [
 }
 
 .side{
-  overflow-x: auto;
-  width: 260px;
+  overflow-x:auto;
+  width: 250px;
 }
 
 .list-main {
@@ -410,5 +121,12 @@ const tableData:PiFile[] = [
   min-height: 800px;
 }
 
+.filter-tree{
+  min-width: 100px;
+}
 
+.filelist-text{
+  text-align: center;
+  padding:5px;
+}
 </style>

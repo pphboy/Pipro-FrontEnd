@@ -92,12 +92,6 @@ const createSubmit = async (formEl: FormInstance | undefined) => {
                 </el-icon>
               </el-button>
 
-              <span class="el-dropdown-link">
-                Dropdown List
-                <el-icon class="el-icon--right">
-                  <arrow-down />
-                </el-icon>
-              </span>
               <template #dropdown>
                 <el-dropdown-menu>
                   <!-- 如果是 ProjectList 的类型 则有 这个菜单项 -->

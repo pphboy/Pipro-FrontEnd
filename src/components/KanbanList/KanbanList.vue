@@ -126,11 +126,6 @@ function beforeCloseKanbanUpdate(done :Function){
             <el-icon><MoreFilled /></el-icon>
 					</el-button>
 
-					<span class="el-dropdown-link">
-						<el-icon class="el-icon--right">
-							<arrow-down />
-						</el-icon>
-					</span>
 					<template #dropdown>
 						<el-dropdown-menu>
 							<el-dropdown-item @click.native="kanbanVisible=true">重命名</el-dropdown-item>

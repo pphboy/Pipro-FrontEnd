@@ -63,11 +63,6 @@ function createEvent(){
             <el-icon><MoreFilled /></el-icon>
 					</el-button>
 
-					<span class="el-dropdown-link">
-						<el-icon class="el-icon--right">
-							<arrow-down />
-						</el-icon>
-					</span>
 					<template #dropdown>
 						<el-dropdown-menu>
 							<el-dropdown-item>这个按钮还没写捏</el-dropdown-item>
