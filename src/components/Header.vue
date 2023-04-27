@@ -5,6 +5,9 @@ import { PiProject } from '@/types/Project'
 import MessageBag from '@/components/MessageList/MessageBag.vue'
 import {FormRules,FormInstance, ElNotification} from 'element-plus'
 import {saveProject,getProjectList} from '@/services/ProjectListService';
+import { useProjectDetailStore } from '@/store/modules/projectDetail';
+
+const projectDetailStore = useProjectDetailStore();
 
 const newProjectDialog = ref(false);
 
@@ -109,6 +112,7 @@ const createSubmit = async (formEl: FormInstance | undefined) => {
     </el-row>
 
     <div class="nav-btns" v-if=" type == 'ProjectDetail'">
+      <el-button class="nav-btn" type="primary" title="项目名称">{{  projectDetailStore.projectDetail.projectName}}</el-button>
       <el-button class="nav-btn" @click="$router.push({name:'ProjectDetailMain'})">看板</el-button>
       <el-button class="nav-btn" @click="$router.push({name:'ProjectTodoList'})">列表</el-button>
       <el-button class="nav-btn" @click="$router.push({name:'ProjectFileList'})">文件</el-button>

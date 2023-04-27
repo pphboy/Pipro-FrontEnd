@@ -3,16 +3,18 @@ import { PiFileDirectory, PiFile } from "@/types/File";
 import { defineProps, ref, reactive, computed, Ref } from "vue";
 import { useFileDirectoryStore } from "@/store/modules/fileDirectory";
 import { useProjectDetailStore } from "@/store/modules/projectDetail";
-import { UploadProps,ElMessage,UploadFile, ElNotification} from "element-plus";
+import { ElMessageBox,UploadProps, ElMessage, UploadFile, ElNotification } from "element-plus";
 import { useGlobalStore } from "@/store/modules/global";
-import { saveStatusAndRefresh } from "@/services/FileDirectoryService";
+import {  saveStatusAndRefresh,renameDirectoryFunc, deleteDirectory, deleteDirectoryFunc } from "@/services/FileDirectoryService";
+import { renameFileFunc,deleteFileFunc,downloadFile} from '@/services/FileService'
+import { DirectoryDto } from "@/services/dto/FileDirectoryDto";
 
 interface FileItemListProps {
   fileDirectory: PiFileDirectory,
 }
 const fileDirectoryStore = useFileDirectoryStore();
 const projectDetailStore = useProjectDetailStore();
-const globalStore=useGlobalStore();
+const globalStore = useGlobalStore();
 
 const props = defineProps<FileItemListProps>();
 
@@ -39,53 +41,39 @@ const setBack = () => {
   fileDirectoryStore.setBack();
 }
 
-const handleEdit = (index: number, row: PiFile) => {
-  console.log(index, row)
-}
-const handleDelete = (index: number, row: PiFile) => {
-  console.log(index, row)
-}
-
-
-const uploadSuccess: UploadProps['onSuccess'] = (response: any, uploadFile: UploadFile)  => {
-  if("status" in response && "message" in response){
-    const {status,message} = response;
-    console.log(response,uploadFile)
-    if(status){
+const uploadSuccess: UploadProps['onSuccess'] = (response: any, uploadFile: UploadFile) => {
+  if ("status" in response && "message" in response) {
+    const { status, message } = response;
+    console.log(response, uploadFile)
+    if (status) {
       saveStatusAndRefresh();
       ElMessage.success(message)
-    }else {
+    } else {
       ElMessage.error(message)
     }
   }
 }
-const uploadError: UploadProps['onError'] = (error :any)  => {
+const uploadError: UploadProps['onError'] = (error: any) => {
   ElNotification.error("上传失败，请检查文件大小，文件大小不可超过100MB")
 }
-
 
 </script>
 
 <template>
-  <el-button @click="fileDirectoryStore.setIndex()">首页</el-button>
-  <div v-if="fileDirectoryStore.copy">
-  <el-button title="返回到上一个过来的路径"  @click="setBack">返回</el-button>
-  <el-upload
-   class="upload-demo"
-    :action="`/api/project/file/project/${projectDetailStore.projectDetail.projectId}/${fileDirectoryStore.directoryDetail.fileDirectoryId}`" 
-    :headers="{
-      'Authorization':globalStore.token
-    }"
-    :on-error="uploadError"
-    :on-success="uploadSuccess"
-    >
-    <el-button type="primary">Click to upload</el-button>
-    <template #tip>
-      <div class="el-upload__tip">
-        {{ fileDirectoryStore.directoryDetail.fileDirectoryId }}
-      </div>
-    </template>
-  </el-upload>
+  <div class="class-flex">
+    <el-button @click="fileDirectoryStore.setIndex()">首页</el-button>
+    <div class="class-flex" v-if="fileDirectoryStore.copy">
+      <div>&emsp;</div>
+      <el-button title="返回到上一个过来的路径" @click="setBack">返回</el-button>
+      <div>&emsp;</div>
+      <el-upload class="upload-demo"
+        :action="`/api/project/file/project/${projectDetailStore.projectDetail.projectId}/${fileDirectoryStore.directoryDetail.fileDirectoryId}`"
+        :headers="{
+            'Authorization': globalStore.token
+          }" :on-error="uploadError" :on-success="uploadSuccess">
+        <el-button type="primary">上传文件</el-button>
+      </el-upload>
+    </div>
 
   </div>
   <el-table :data="fileDirectory.childDirectoryList" style="width: 100%" empty-text="本目录中没有文件夹">
@@ -103,8 +91,8 @@ const uploadError: UploadProps['onError'] = (error :any)  => {
     <el-table-column label="操作" align="center">
       <template #default="scope">
         <el-button size="small" type="success" @click="handleOpenDirectory(scope.$index, scope.row)">打开</el-button>
-        <el-button size="small" @click="handleEdit(scope.$index, scope.row)">重命名</el-button>
-        <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        <el-button size="small" @click="renameDirectoryFunc(scope.row)">重命名</el-button>
+        <el-button size="small" type="danger" @click="deleteDirectoryFunc(scope.row)">删除</el-button>
       </template>
     </el-table-column>
     <template #header>
@@ -125,12 +113,17 @@ const uploadError: UploadProps['onError'] = (error :any)  => {
     <el-table-column label="更新时间" prop="updateTime"></el-table-column>
     <el-table-column align="center">
       <template #default="scope">
-        <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">下载</el-button>
-        <el-button size="small" @click="handleEdit(scope.$index, scope.row)">重命名</el-button>
-        <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        <el-button type="primary" size="small" @click="downloadFile(`http://localhost:8085${scope.row.filePath}`,scope.row.filename)">下载</el-button>
+        <el-button size="small" @click="renameFileFunc(scope.row)">重命名</el-button>
+        <el-button size="small" type="danger" @click="deleteFileFunc(scope.row)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+.class-flex{
+  display: flex;
+}
+</style>

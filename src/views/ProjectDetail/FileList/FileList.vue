@@ -6,10 +6,9 @@ import { FilterNodeMethodFunction, FilterValue } from "element-plus/es/component
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 import { PiFile, PiFileDirectory } from '@/types/File';
 import FileItemList from '@/components/FileList/FileItemList.vue'
-import { getProjectAllFileDirectory } from '@/services/FileDirectoryService'
 import { useFileDirectoryStore } from "@/store/modules/fileDirectory";
 import { DirectoryDto } from "@/services/dto/FileDirectoryDto";
-import { createDirectory,getEqualIdDirectory } from "@/services/FileDirectoryService";
+import { createDirectoryFunc,renameDirectoryFunc,deleteDirectoryFunc,getProjectAllFileDirectory} from "@/services/FileDirectoryService";
 
 import {Setting} from '@element-plus/icons-vue'
 
@@ -52,28 +51,7 @@ const openRightMenu = function (obj: Object, data: TreeNode, node: TreeNode): vo
   console.log("openRightMenu", obj, "\ndata", data, "\nnode", node);
 }
 
-const createDirectoryFunc = (parent?:PiFileDirectory)=>{
-  ElMessageBox.prompt('请输入文件目录名', '创建文件目录', {
-    confirmButtonText: '创建',
-    cancelButtonText: '取消',
-    inputPlaceholder:"请输入文件目录名",
-    inputPattern:/^.{1,50}$/,
-    inputErrorMessage: '文件目录在1~50之间的长度',
-  })
-    .then(({ value }) => {
-      const directory:DirectoryDto = {
-        parentId:parent?.fileDirectoryId,
-        directoryName:value,
-      };
-      createDirectory(directory)
-    })
-    .catch(() => {
-      ElMessage({
-        type: 'info',
-        message: 'Input canceled',
-      })
-    })
-}
+
 </script>
 <template>
   <div class="file-list">
@@ -86,14 +64,14 @@ const createDirectoryFunc = (parent?:PiFileDirectory)=>{
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item @click="createDirectoryFunc">新建根目录</el-dropdown-item>
-                <el-dropdown-item>刷新目录</el-dropdown-item>
+                <el-dropdown-item @click="getProjectAllFileDirectory">刷新目录</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
         </div>
       </div>
       <el-input v-model="filterText" placeholder="Filter keyword" />
-      <el-tree ref="treeRef" class="filter-tree" :data="fileDirectoryStore.directoryList" :props="defaultProps"
+      <el-tree empty-text="本项目还没有文件夹，点击上方设置按钮新建吧" ref="treeRef" class="filter-tree" :data="fileDirectoryStore.directoryList" :props="defaultProps"
         default-expand-all @node-click="nodeClick" :filter-node-method="filterNode">
         <template #default="{ node, data }">
           <el-dropdown trigger="contextmenu">
@@ -107,8 +85,8 @@ const createDirectoryFunc = (parent?:PiFileDirectory)=>{
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item @click="createDirectoryFunc(data)">新建文件夹</el-dropdown-item>
-                <el-dropdown-item>重命名</el-dropdown-item>
-                <el-dropdown-item>删除</el-dropdown-item>
+                <el-dropdown-item @click="renameDirectoryFunc(data)">重命名</el-dropdown-item>
+                <el-dropdown-item @click="deleteDirectoryFunc(data)">删除</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>

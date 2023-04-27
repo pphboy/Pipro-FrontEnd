@@ -1,6 +1,6 @@
 import { API } from "@/types/API";
 import axios from '@/utils/axios';
-import { ElLoading, ElMessage} from 'element-plus';
+import {ElMessageBox, ElLoading, ElMessage} from 'element-plus';
 
 import { DirectoryDto } from "./dto/FileDirectoryDto";
 import { PiFileDirectory } from "@/types/File";
@@ -47,7 +47,9 @@ export async function getProjectAllFileDirectory(): Promise<Array<PiFileDirector
 export async function createDirectory(directory: DirectoryDto): Promise<boolean> {
   const projectDetailStore = useProjectDetailStore();
   return new Promise<boolean>((resolve, reject) => {
+    // 设置项目ID
     directory.projectId = projectDetailStore.projectDetail.projectId;
+
     const loadingInstance = ElLoading.service({ fullscreen: true });
     axios.post(API.PROJECT.FILE_DIRECTORY.CREATE,directory).then(res => {
       console.log("createDirectory",directory);
@@ -77,7 +79,11 @@ export async function createDirectory(directory: DirectoryDto): Promise<boolean>
  * @returns 
  */
 export async function renameDirectory(directory: DirectoryDto): Promise<boolean> {
+  const projectDetailStore = useProjectDetailStore();
   return new Promise<boolean>((resolve, reject) => {
+    // 设置项目ID
+    directory.projectId = projectDetailStore.projectDetail.projectId;
+
     axios.put(API.PROJECT.FILE_DIRECTORY.RENAME,directory).then(res => {
       console.log("renameDirectory",res);
       if (res.data.status) {
@@ -97,11 +103,16 @@ export async function renameDirectory(directory: DirectoryDto): Promise<boolean>
 
 /**
  * 删除文件 
+ * 因为是删除，如果要保存的打开状态不存在删除的目录，则显示的就是首页
  * @param directory 
  * @returns 
  */
 export async function deleteDirectory(directory: DirectoryDto): Promise<boolean> {
+  const projectDetailStore = useProjectDetailStore();
   return new Promise<boolean>((resolve, reject) => {
+    // 设置项目ID
+    directory.projectId = projectDetailStore.projectDetail.projectId;
+
     axios.delete(API.PROJECT.FILE_DIRECTORY.DELETE,{data:directory}).then(res => {
       console.log("deleteDirectory",res);
       if (res.data.status) {
@@ -146,10 +157,99 @@ export function getEqualIdDirectory(id:number,directoryList?:Array<PiFileDirecto
 export function saveStatusAndRefresh(){
   const fileDirectoryStore = useFileDirectoryStore();
   const id = fileDirectoryStore.directoryDetail.fileDirectoryId;
-  const copy = {...fileDirectoryStore.copy};
+
+  let copy:any = undefined;
+  // 必须要有 目录的时候，copy存在才有意义，如果没有目录的时候也设置copy就会直接在首页打开“潘多拉报错”
+  if(fileDirectoryStore.copy){
+    copy = {...fileDirectoryStore.copy};
+  }
 
   getProjectAllFileDirectory().then(res=>{
     getEqualIdDirectory(id,fileDirectoryStore.directoryList);
-    fileDirectoryStore.copy = {...copy} as PiFileDirectory;
+    if(fileDirectoryStore.copy){
+      fileDirectoryStore.copy = {...copy} as PiFileDirectory;
+    }
   });
+}
+
+export const createDirectoryFunc = (parent?:PiFileDirectory)=>{
+  ElMessageBox.prompt('请输入文件目录名', '创建文件目录', {
+    confirmButtonText: '创建',
+    cancelButtonText: '取消',
+    inputPlaceholder:"请输入文件目录名",
+    inputPattern:/^.{1,50}$/,
+    inputErrorMessage: '文件目录在1~50之间的长度',
+  })
+    .then(({ value }) => {
+      if(!value.trim()){
+        ElMessage.error("禁止使用空串作为目录名");
+        return;
+      }
+      const directory:DirectoryDto = {
+        parentId:parent?.fileDirectoryId,
+        directoryName:value,
+      };
+      createDirectory(directory)
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '取消添加',
+      })
+    })
+}
+
+export const renameDirectoryFunc = (parent?:PiFileDirectory)=>{
+  ElMessageBox.prompt('请输入文件目录名', `您正在修改名为[${parent?.fileDirectoryTitle}]的文件夹名称`, {
+    confirmButtonText: '编辑',
+    cancelButtonText: '取消',
+    inputPlaceholder:"请输入文件目录名",
+    inputPattern:/^.{1,50}$/,
+    inputValue:parent?.fileDirectoryTitle,
+    type:'warning',
+    inputErrorMessage: '文件目录在1~50之间的长度',
+  })
+    .then(({ value }) => {
+      if(!value.trim()){
+        ElMessage.error("禁止使用空串作为目录名");
+        return;
+      }
+      const directory:DirectoryDto = {
+        directoryName:value,
+        directoryId:parent?.fileDirectoryId,
+      };
+      renameDirectory(directory)
+      // 其实传进来的数据肯定是存在的，但个判断是为了不报错
+      if( parent && parent.fileDirectoryTitle){
+        parent.fileDirectoryTitle=value
+      }
+    })
+
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '取消编辑',
+      })
+    })
+}
+
+export const deleteDirectoryFunc = (parent?:PiFileDirectory)=>{
+  ElMessageBox.prompt('你正在执行危险操作,删除后数据找回需要到数据库内，请谨慎操作', `您正在删除名为[${parent?.fileDirectoryTitle}]的文件夹名称`, {
+    confirmButtonText: '删除',
+    cancelButtonText: '取消',
+    type:'error',
+    showInput:false
+  })
+    .then(({ value }) => {
+      const directory:DirectoryDto = {
+        directoryId:parent?.fileDirectoryId,
+      };
+      deleteDirectory(directory)
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '取消删除',
+      })
+    })
 }

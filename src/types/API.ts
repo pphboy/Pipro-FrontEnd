@@ -118,7 +118,29 @@ const API= {
        * DELETE 删除文件
        */
       DELETE:"/project/directory",
-
+    },
+    /**
+     * 文件目录
+     */
+    FILE:{
+      /**
+       * 引导作用
+       */
+      BASE:'/project/file',
+      /**
+       * 
+       * POST
+       * @returns 文件上传路径
+       */
+      UPLOAD:(projectId:number,directoryId:number)=>`/project/file/project/${projectId}/${directoryId}`,
+      /**
+       * POST 重命名
+       */
+      RENAME:'/project/file',
+      /**
+       * DELETE 删除
+       */
+      DELETE:'/project/file',
     }
 
   }
