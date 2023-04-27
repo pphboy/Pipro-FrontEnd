@@ -97,6 +97,28 @@ const API= {
        * DELETE 删除
        */
       DELETE:"/project/kanban/",
+    },
+    /**
+     * 文件目录
+     */
+    FILE_DIRECTORY:{
+      /**
+       * GET 当前项目中所有的目录及相关信息
+       */
+      ALL:(projectId?:number)=>`/project/directory/${projectId}`,
+      /**
+       * POST 创建目录
+       */
+      CREATE:"/project/directory",
+      /**
+       * PUT 文件重命名
+       */
+      RENAME:"/project/directory",
+      /**
+       * DELETE 删除文件
+       */
+      DELETE:"/project/directory",
+
     }
 
   }

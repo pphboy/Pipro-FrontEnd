@@ -5,7 +5,7 @@ import { KanbanDetail } from '@/types/KanbanList';
 import { MissionTodayAndLastDto } from '@/services/dto/MissionTodayAndLastDto';
 import { PiMember } from '@/types/Member';
 
-interface MemberState {
+interface ProejctStore {
   projectId:number | undefined,
   projectDetail:PiProject,
   missionList:MissionTodayAndLastDto,
@@ -16,7 +16,7 @@ interface MemberState {
 }
 
 export const useProjectDetailStore = defineStore('projectDetail',{
-  state: (): MemberState => ({
+  state: (): ProejctStore => ({
     projectId:-1,
     projectDetail:{} as PiProject,
   missionList:{} as MissionTodayAndLastDto,

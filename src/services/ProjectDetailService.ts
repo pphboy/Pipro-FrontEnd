@@ -6,6 +6,7 @@ import { useProjectDetailStore } from "@/store/modules/projectDetail";
 import { MissionTodayAndLastDto } from "./dto/MissionTodayAndLastDto";
 import { getMemberList } from "./MemberService";
 import { getAllMissionList } from "./ProjectListService";
+import { getProjectAllFileDirectory } from "./FileDirectoryService";
 
 /**
  * 获取项目详情
@@ -49,6 +50,8 @@ export async function refreshProject(): Promise<PiProject> {
   getAllMissionList();
   // 获取未加入本项目的用户列表
   getMemberList();
+  // 刷新文件目录 
+  getProjectAllFileDirectory();
   return getProjectDetail(projectId())
 }
 
