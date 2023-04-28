@@ -1,11 +1,4 @@
 
-
-/**
- * 
- * 创建文件使用数据类
- * 修改文件
- * 删除文件
- */
 export interface DirectoryDto {
   /**
    * 项目ID

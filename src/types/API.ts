@@ -141,6 +141,27 @@ const API= {
        * DELETE 删除
        */
       DELETE:'/project/file',
+    },
+    /**
+     * 文件目录
+     */
+    DOCUMENT_DIRECTORY:{
+      /**
+       * GET 当前项目中所有的目录及相关信息
+       */
+      ALL:(projectId?:number)=>`/project/document/directory/${projectId}`,
+      /**
+       * POST 创建目录
+       */
+      CREATE:"/project/document/directory",
+      /**
+       * PUT 文件重命名
+       */
+      RENAME:"/project/document/directory",
+      /**
+       * DELETE 删除文件
+       */
+      DELETE:"/project/document/directory",
     }
 
   }

@@ -8,7 +8,7 @@ interface FileDirectoryStore{
   copy?: PiFileDirectory,
 }
 
-export const  useFileDirectoryStore= defineStore('directory',{
+export const  useFileDirectoryStore= defineStore('file-directory',{
   state: (): FileDirectoryStore=> ({
     directoryList:[],
     directoryDetail:{} as PiFileDirectory,
