@@ -6,6 +6,10 @@ import MessageBag from '@/components/MessageList/MessageBag.vue'
 import {FormRules,FormInstance, ElNotification} from 'element-plus'
 import {saveProject,getProjectList} from '@/services/ProjectListService';
 import { useProjectDetailStore } from '@/store/modules/projectDetail';
+import { useGlobalStore} from '@/store/modules/global'
+import { getHeadImage } from '@/utils/ProjectTool';
+
+const globalStore = useGlobalStore();
 
 const projectDetailStore = useProjectDetailStore();
 
@@ -15,6 +19,7 @@ const messageBoxDrawer = ref(false);
 
 const pipro = reactive<PiProject>({
 } as PiProject);
+
 
 const formRef = ref(undefined);
 
@@ -81,10 +86,10 @@ const createSubmit = async (formEl: FormInstance | undefined) => {
               </el-badge>
             </div>
           <div>
-            <img class="iconimg" src="@/assets/qq.png" alt="头像">
+            <img class="iconimg" :src="getHeadImage(globalStore.memberInfo.memberName || 'DEFAULT')" alt="头像">
           </div>
           <div style="line-height:20px;">
-            <div>UserNameAB</div>
+            <div style="background:#ccc;">{{ globalStore.memberInfo.memberName  }}</div>
             <div>Type</div>
           </div>
           <div>
@@ -205,6 +210,10 @@ header {
 .show-dot {
   line-height: 0;
   padding-right: 20px;
+}
+.iconimg{
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.12);
 }
 
 </style>

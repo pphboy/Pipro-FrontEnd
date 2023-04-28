@@ -64,8 +64,8 @@ function getMemberName(list:Set<PiMember> | undefined):string{
     draggable 设置 元素可拖放
    -->
 
-  <el-card @click="todoClick" class="todo">
-    <div class="todo-detail-layout">
+  <el-card  class="todo">
+    <div @click="todoClick" class="todo-detail-layout">
       <div>
         <div style="margin:auto 20px;">
           <el-checkbox @click.stop @change="todoStatusChange"></el-checkbox>

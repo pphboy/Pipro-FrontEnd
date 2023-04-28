@@ -153,11 +153,12 @@ function beforeCloseKanbanUpdate(done :Function){
       :value="kanban.listName"
       :json="kanban.listName"
       :name="kanban.listName"
+      
       :forceFallback="true"
       @update="updateKanban"
       ghost-class="chosen" 
       :group="'kanban'"
-      :options="{}"
+      :options="{ touchStartThreshold:1000 ,preventOnFilter:false}"
       :animation="300"
       :disabled="kanbanDisabled"
       item-key="id"
@@ -166,7 +167,8 @@ function beforeCloseKanbanUpdate(done :Function){
       <template #item="{element}">
         <div  
           >
-          <Todo ref="todo" v-model:disabled="kanbanDisabled" :detail="element"></Todo>
+          <Todo ref="todo"
+          v-model:disabled="kanbanDisabled" :detail="element"></Todo>
         </div>
       </template>
     </draggable>
