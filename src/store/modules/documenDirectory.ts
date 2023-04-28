@@ -2,17 +2,19 @@ import { defineStore } from 'pinia';
 import { PiDocumentDirectory, PiDocument } from '@/types/Document';
 
 
-interface FileDirectoryStore {
+interface DocumentDirectoryStore {
   directoryList: Array<PiDocumentDirectory>,
   directoryDetail: PiDocumentDirectory,
   copy?: PiDocumentDirectory,
+  document:PiDocument,
 }
 
 export const useDocumentDirectoryStore = defineStore('document-directory', {
-  state: (): FileDirectoryStore => ({
+  state: (): DocumentDirectoryStore => ({
     directoryList: [],
     directoryDetail: {} as PiDocumentDirectory,
     copy: undefined,
+    document:{} as PiDocument,
   }),
   getters: {
 
@@ -35,7 +37,7 @@ export const useDocumentDirectoryStore = defineStore('document-directory', {
     setBack() {
       if (this.copy) {
         this.directoryDetail = this.copy;
-        this.copy = undefined;
+        // this.copy = undefined;
       }
     },
     setIndex() {
@@ -58,7 +60,7 @@ export const useDocumentDirectoryStore = defineStore('document-directory', {
     },
     setDirectory(directories: Array<PiDocumentDirectory>) {
       // 每次更新都需要清除copy
-      this.copy = undefined;
+      // this.copy = undefined;
       this.directoryList = directories;
       this.directoryDetail = {
         documentDirectoryId: -1,

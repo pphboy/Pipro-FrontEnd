@@ -15,14 +15,46 @@ import { useProjectDetailStore } from "@/store/modules/projectDetail";
 export async function getProjectAllFileDirectory(): Promise<Array<PiFileDirectory>> {
   const projectDetailStore = useProjectDetailStore();
   const fileDirectoryStore = useFileDirectoryStore();
+  // 如果是其他项目进来的，直接刷新
+
+  // 如果不是，则不需要操作，因为开了持久化
+
   return new Promise<Array<PiFileDirectory>>((resolve, reject) => {
+
+    let detailId:number|undefined = undefined;
+
+    console.log(fileDirectoryStore.directoryList[0],"object");
+    console.log(fileDirectoryStore.directoryDetail);
+    console.log(fileDirectoryStore.directoryList[0] && projectDetailStore.projectDetail.projectId == fileDirectoryStore.directoryList[0].projectId 
+        && fileDirectoryStore.directoryDetail);
+
+    if( fileDirectoryStore.directoryList[0] && projectDetailStore.projectDetail.projectId == fileDirectoryStore.directoryList[0].projectId 
+        && fileDirectoryStore.directoryDetail ){
+
+        detailId  = fileDirectoryStore.directoryDetail.fileDirectoryId;
+        console.log(detailId);
+    }
+
     const loadingInstance = ElLoading.service({ fullscreen: true });
     axios.get(API.PROJECT.FILE_DIRECTORY.ALL(projectDetailStore.projectDetail.projectId)).then(res => {
       console.log("getProjectAllFileDirectory",res);
       if (res.data.status) {
         // ElMessage.success(res.data.message)
         // 更新整个项目
+        // 更新整个项目
+
+        // 下面是保存copy，就是返回的值
+        if(!fileDirectoryStore.directoryList[0] || projectDetailStore.projectDetail.projectId != fileDirectoryStore.directoryList[0].projectId){
+          // 如果 目录 ID != 当前项目ID，则清除COPY，如果相于，则不清除COPY
+          fileDirectoryStore.copy = undefined;
+        }
+
         fileDirectoryStore.setDirectory(res.data.data)
+
+        if(detailId){
+          console.log(detailId);
+          getEqualIdDirectory(detailId,fileDirectoryStore.directoryList)
+        }
         resolve(res.data.data)
       }else 
         reject([]);

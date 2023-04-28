@@ -37,10 +37,14 @@ watch(filterText, (val) => {
 /**
  *  下面这个格式是代码定义的，不这样写就报错，我就这样写了
  */
-const filterNode: FilterNodeMethodFunction = (value: FilterValue, data: TreeNodeData): boolean => {
+const filterNode: FilterNodeMethodFunction = (value: FilterValue, data: PiDocumentDirectory): boolean => {
   if (!value) return true
-  return data.label.includes(value)
+  if(data.documentDirectoryTitle){
+    return data.documentDirectoryTitle.includes(value)
+  }
+  return false
 }
+
 
 
 const nodeClick = function (obj: PiDocumentDirectory): void {

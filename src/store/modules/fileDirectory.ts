@@ -35,7 +35,7 @@ export const  useFileDirectoryStore= defineStore('file-directory',{
     setBack(){
       if(this.copy){
         this.directoryDetail = this.copy;
-        this.copy = undefined;
+        // this.copy = undefined;
       }
     },
     setIndex(){
@@ -58,7 +58,7 @@ export const  useFileDirectoryStore= defineStore('file-directory',{
     },
     setDirectory(directories:Array<PiFileDirectory>){
       // 每次更新都需要清除copy
-      this.copy = undefined;
+      // this.copy = undefined;
       this.directoryList = directories;
       this.directoryDetail = {
         fileDirectoryId:-1,
@@ -77,5 +77,5 @@ export const  useFileDirectoryStore= defineStore('file-directory',{
     }
   },
   // 持久化开启
-  // persist: true,
+  persist: true,
 })

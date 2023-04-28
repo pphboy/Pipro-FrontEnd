@@ -17,6 +17,60 @@ export async function getProjectAllDocumentDirectory(): Promise<Array<PiDocument
   const documentDirectoryStore = useDocumentDirectoryStore();
   return new Promise<Array<PiDocumentDirectory>>((resolve, reject) => {
     const loadingInstance = ElLoading.service({ fullscreen: true });
+
+    let detailId:number|undefined = undefined;
+    // 这行代码是记录当前已经有打开的文件的目录的ID
+    // 如果不切换项目，在更新数据后，又会重新拿到这个ID的数据、并设置到全局
+    if(documentDirectoryStore.directoryList[0] && projectDetailStore.projectDetail.projectId ==documentDirectoryStore.directoryList[0].projectId 
+        &&documentDirectoryStore.directoryDetail ){
+        detailId  = documentDirectoryStore.directoryDetail.documentDirectoryId;
+        console.log(detailId);
+    }
+    axios.get(API.PROJECT.DOCUMENT_DIRECTORY.ALL(projectDetailStore.projectDetail.projectId)).then(res => {
+      console.log("getProjectAllDocumentDirectory",res);
+      if (res.data.status) {
+        // ElMessage.success(res.data.message)
+        // 更新整个项目
+
+        // 这个代码主要是判断是不是切换项目了，如果ProjectID与老的数据的ProjectId不相等说明切换项目了，需要清除Copy
+        if(!documentDirectoryStore.directoryList[0] || projectDetailStore.projectDetail.projectId != res.data.data[0].projectId){
+          // 如果 目录 ID != 当前项目ID，则清除COPY，如果相于，则不清除COPY
+          documentDirectoryStore.copy = undefined;
+          console.log("objecundt");
+        }
+
+        documentDirectoryStore.setDirectory(res.data.data)
+
+        // 这个就是上面的文件目录ID
+        // 如果存在这个已经打开的目录 ID，那么就需要更新其数据，重新拿到其值，但界面保存当前打开的状态。
+        if(detailId){
+          console.log(detailId);
+          getEqualIdDirectory(detailId,documentDirectoryStore.directoryList)
+        }
+
+        resolve(res.data.data)
+      }else 
+        reject([]);
+    }).catch((err) => {
+      console.log(`[getProjectAllDocumentDirectory] `, err);
+      reject([]);
+    }).finally(() => {
+      setTimeout(() => {
+        loadingInstance.close();
+      }, 300)
+    })
+  });
+}
+
+/**
+ * 不会删除COPY
+ * @returns 
+ */
+export async function getProjectAllDocumentDirectoryHaveCopy(): Promise<Array<PiDocumentDirectory>> {
+  const projectDetailStore = useProjectDetailStore();
+  const documentDirectoryStore = useDocumentDirectoryStore();
+  return new Promise<Array<PiDocumentDirectory>>((resolve, reject) => {
+    const loadingInstance = ElLoading.service({ fullscreen: true });
     axios.get(API.PROJECT.DOCUMENT_DIRECTORY.ALL(projectDetailStore.projectDetail.projectId)).then(res => {
       console.log("getProjectAllDocumentDirectory",res);
       if (res.data.status) {
@@ -136,12 +190,13 @@ export async function deleteDirectory(directory: DirectoryDto): Promise<boolean>
  * @param directoryList 
  * @returns 
  */
-export function getEqualIdDirectory(id:number,directoryList?:Array<PiDocumentDirectory>){
+export function getEqualIdDirectory(id?:number,directoryList?:Array<PiDocumentDirectory>){
   const documentDirectoryStore = useDocumentDirectoryStore();
   if(directoryList && directoryList.length){
     for(let i = 0;i<directoryList.length;i++){
       const current = directoryList[i];
       if(current.documentDirectoryId == id){
+        console.log(current,"current");
         documentDirectoryStore.directoryDetail = current;
         return current
       }else {
@@ -164,7 +219,7 @@ export function saveStatusAndRefresh(){
     copy = {...documentDirectoryStore.copy};
   }
 
-  getProjectAllDocumentDirectory().then(res=>{
+  getProjectAllDocumentDirectoryHaveCopy().then(res=>{
     getEqualIdDirectory(id,documentDirectoryStore.directoryList);
     if(documentDirectoryStore.copy){
       documentDirectoryStore.copy = {...copy} as PiDocumentDirectory;

@@ -38,7 +38,8 @@ watch(filterText, (val) => {
  */
 const filterNode: FilterNodeMethodFunction = (value: FilterValue, data: TreeNodeData): boolean => {
   if (!value) return true
-  return data.label.includes(value)
+  // console.log(value,data);
+  return data.fileDirectoryTitle.includes(value)
 }
 
 

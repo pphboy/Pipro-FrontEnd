@@ -4,10 +4,11 @@
  *  文件详情
  */
 export interface PiDocument {
-  documentId: number,
-  documentContent: string,
-  documentTitle: string,
-  createTime: String
+  documentId?:string,
+  documentContent?: string,
+  documentTitle?: string,
+  documentDirectoryId?:number,
+  createTime?:string
 }
 
 /**
@@ -16,18 +17,18 @@ export interface PiDocument {
  * 有目录
  */
 export interface PiDocumentDirectory {
-  documentDirectoryId: number,
-  documentDirectoryTitle: string,
+  documentDirectoryId?: number,
+  documentDirectoryTitle?: string,
   parentId?: number,
   projectId?: number,
-  createTime: string,
-  updateTime: string,
+  createTime?: string,
+  updateTime?: string,
   /**
    * 子目录
    */
-  childDirectoryList: Array<PiDocumentDirectory>,
+  childDirectoryList?: Array<PiDocumentDirectory>,
   /**
    * 子文件
    */
-  documentList: Array<PiDocument>
+  documentList?: Array<PiDocument>
 }

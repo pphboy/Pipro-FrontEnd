@@ -143,7 +143,7 @@ const API= {
       DELETE:'/project/file',
     },
     /**
-     * 文件目录
+     * 文档目录接口
      */
     DOCUMENT_DIRECTORY:{
       /**
@@ -162,6 +162,24 @@ const API= {
        * DELETE 删除文件
        */
       DELETE:"/project/document/directory",
+    },
+    /**
+     * 文档接口
+     */
+    DOCUMENT:{
+      /**
+       * POST 创建文档
+       */
+      CREATE:'/project/document',
+      /**
+       * PUT 更新文档
+       */
+      UPDATE:'/project/document',
+      /**
+       * DELETE 删除文档
+       */
+      DELETE:'/project/document',
+
     }
 
   }
