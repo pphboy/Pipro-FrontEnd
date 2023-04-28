@@ -40,11 +40,11 @@ export const useGlobalStore = defineStore('global',{
         this.setToken(login.token as string);
       }
     },
-    logout(){
+    logout(message:string='退出登录成功'){
       this.token = '';
       this.memberInfo = {} as PiMember;
       router.push({name:'Login'})
-      ElNotification.success("退出登录成功")
+      ElNotification.success(message)
     }
   },
   // 持久化开启

@@ -6,6 +6,9 @@ import { ElLoading, ElMessage, ElNotification } from 'element-plus';
 import { useProjectDetailStore } from "@/store/modules/projectDetail";
 import {refreshProject } from "./ProjectDetailService";
 import { AddMemberDto, DeleteMemberDto } from "./dto/ProjectMemberDto";
+import { UpdateMemberVo } from "./dto/MemberDto";
+import { useGlobalStore } from "@/store/modules/global";
+import { useTable } from "element-plus/es/components/table-v2/src/use-table";
 
 
 export async function getMemberList(): Promise<PiMember[]> {
@@ -67,6 +70,32 @@ export async function deleteMemberFromProject(member:DeleteMemberDto): Promise<b
         reject(false);
     }).catch((err) => {
       console.log(`[deleteMemberFromProject] `, err);
+      reject(false);
+    }).finally(() => {
+      setTimeout(() => {
+        loadingInstance.close();
+      }, 300)
+    })
+  });
+}
+
+
+export async function updateMemberInfo(member:UpdateMemberVo): Promise<boolean> {
+  const globalStore = useGlobalStore();
+  return new Promise<boolean>((resolve, reject) => {
+    const loadingInstance = ElLoading.service({ fullscreen: true });
+    axios.post(API.PROJECT.MEMBER.USERINFO,member).then(res => {
+      console.log("updateMemberInfo",res);
+      if (res.data.status) {
+        // 如果密码不为空
+        if(member.password){
+          globalStore.logout("密码重置成功，请重新登录");
+        }else ElNotification.success(res.data.message)
+        resolve(true)
+      }else 
+        reject(false);
+    }).catch((err) => {
+      console.log(`[updateMemberInfo] `, err);
       reject(false);
     }).finally(() => {
       setTimeout(() => {

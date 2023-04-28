@@ -41,6 +41,10 @@ const API= {
      */
     MEMBER:{
       /**
+       * POST 用户信息修改
+       */
+      USERINFO:'/project/member/userinfo',
+      /**
        * GET 获取全局所有用户列表
        */
       LIST:(projectId?:number):string =>`/project/member/${projectId}`,
