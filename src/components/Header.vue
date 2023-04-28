@@ -8,6 +8,10 @@ import {saveProject,getProjectList} from '@/services/ProjectListService';
 import { useProjectDetailStore } from '@/store/modules/projectDetail';
 import { useGlobalStore} from '@/store/modules/global'
 import { getHeadImage } from '@/utils/ProjectTool';
+import { getMessageList} from '@/services/MessageService';
+import { useMessageStore } from  '@/store/modules/message';
+
+const messageStore = useMessageStore();
 
 const globalStore = useGlobalStore();
 
@@ -19,6 +23,9 @@ const messageBoxDrawer = ref(false);
 
 const pipro = reactive<PiProject>({
 } as PiProject);
+
+// 初始化消息
+getMessageList();
 
 
 const formRef = ref(undefined);
@@ -38,6 +45,14 @@ const formRules = reactive<FormRules>({
 const showDot = computed(()=>{
   return true;
 });
+
+const messageNumber = computed(()=>{
+  return messageStore.messageList.filter(a=>{
+    if("messageStatus" in a && a.messageStatus != undefined){
+      return a.messageStatus ==0
+    }else return false;
+  }).length;
+})
 
 const props = defineProps<{
   type?: string
@@ -79,7 +94,7 @@ const createSubmit = async (formEl: FormInstance | undefined) => {
       <el-col :span="12">
         <div class="header_right_sider">
           <div :class="{'show-dot':showDot}">
-              <el-badge :value="10">
+              <el-badge :value="messageNumber ? messageNumber:''">
                 <el-button @click="messageBoxDrawer = true" style="border: 0;padding:10px;">
                   <el-icon :size="20"><Message /></el-icon>
                 </el-button>
@@ -106,6 +121,7 @@ const createSubmit = async (formEl: FormInstance | undefined) => {
                   <el-dropdown-item v-if="type == 'ProjectList'" @click="newProjectDialog = true">新建项目</el-dropdown-item>
 
                 <el-dropdown-item @click="$router.push({ name: 'MemberInfo' })">用户信息</el-dropdown-item>
+                <el-dropdown-item @click="globalStore.logout()">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>

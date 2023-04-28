@@ -7,6 +7,7 @@ import { MissionTodayAndLastDto } from "./dto/MissionTodayAndLastDto";
 import { getMemberList } from "./MemberService";
 import { getAllMissionList } from "./ProjectListService";
 import { getProjectAllFileDirectory } from "./FileDirectoryService";
+import { getMessageList } from "./MessageService";
 
 /**
  * 获取项目详情
@@ -52,6 +53,8 @@ export async function refreshProject(): Promise<PiProject> {
   getMemberList();
   // 刷新文件目录 
   getProjectAllFileDirectory();
+  // 消息列表
+  getMessageList();
   return getProjectDetail(projectId())
 }
 

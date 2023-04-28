@@ -1,6 +1,8 @@
 import { defineStore, PiniaPluginContext } from 'pinia';
 import { VoMember, PiMember } from '@/types/Member';
 import axiosInstance from '@/utils/axios'
+import router from '@/router'
+import { ElNotification } from 'element-plus'
 
 
 interface MemberState {
@@ -38,9 +40,11 @@ export const useGlobalStore = defineStore('global',{
         this.setToken(login.token as string);
       }
     },
-    clearLogin(){
-      this.token = null;
-      this.memberInfo = null;
+    logout(){
+      this.token = '';
+      this.memberInfo = {} as PiMember;
+      router.push({name:'Login'})
+      ElNotification.success("退出登录成功")
     }
   },
   // 持久化开启

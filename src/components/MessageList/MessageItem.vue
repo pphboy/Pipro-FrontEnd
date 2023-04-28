@@ -3,6 +3,7 @@
  import {getHeadImage} from '@/utils/ProjectTool'
  import {PiMessage} from '@/types/Message';
 import { type } from "os";
+import {readOneMessage}  from '@/services/MessageService'
 
 //  const message:PiMessage = reactive<PiMessage>({
 //     messageMaker: "abc",
@@ -16,8 +17,6 @@ const props = defineProps<{
   message:PiMessage
 }>();
 
-const message = reactive(props.message);
-
 </script>
 
 <template>
@@ -25,22 +24,23 @@ const message = reactive(props.message);
     <div class="message-head">
       <div>
         <div>
-          标题
+          {{ message.messageTitle}}
         </div>
         <el-link>发送时间:{{ message.createTime }}</el-link>
       </div>
       <div>
         <div>
-          <img :src="getHeadImage('abc')" style="" alt="">
+          <img :src="getHeadImage(message.memberMaker.memberName || 'abc')" style="" alt="">
         </div>
-        <div>UserName</div>
+        <div>{{ message.memberMaker.memberName }}</div>
 
       </div>
     </div>
     <div class="message-content" v-html="message.messageContent">
     </div>
     <div>
-      <el-link :type="message.isRead?'info':'danger'" :title="message.isRead?'已读':'点击此项将消息状态设置为已读'">{{ message.isRead ? "已读":"点击标识已读" }}</el-link>
+      <el-link type="info" title="已读" v-if="message.messageStatus == 1">已读</el-link>
+      <el-link type="danger" title="点击此项将消息状态设置为已读" @click="readOneMessage(message.messageId)" v-else>点击标识已读</el-link>
     </div>
 
   </el-card>

@@ -13,6 +13,28 @@ const API= {
      */
     REGISTER:'/system/register',
   },
+  /**
+   * 消息
+   */
+  MESSAGE:{
+    /**
+     * GET 获取所有消息
+     */
+    ALL:"/project/message",
+    /**
+     * GET 已读一条消息
+     */
+    READ :(id:string):string=>`/project/message/${id}`,
+    /**
+     * 全部已读
+     */
+    READ_ALL:'/project/message/all',
+    /**
+     * DELETE全部删除 
+     */
+    DELETE_ALL:'/project/message'
+
+  },
   PROJECT:{
     /**
      * GET 获取全局所有用户的列表
@@ -179,9 +201,7 @@ const API= {
        * DELETE 删除文档
        */
       DELETE:'/project/document',
-
-    }
-
+    },
   }
 };
 

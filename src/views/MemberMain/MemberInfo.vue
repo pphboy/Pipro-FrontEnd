@@ -74,9 +74,6 @@ const rules = ref<FormRules>({
       <el-col>
         <el-card>
           <el-form status-icon :model="memberRuleForm" ref="memberForm" :rules="rules" label-width="80px">
-            <el-form-item prop="memberName" label="用户名">
-              <el-input v-model="memberRuleForm.memberName" style="width: 200px" placeholder="请输入用户名" maxlength="10" />
-            </el-form-item>
             <el-form-item label="邮箱" prop="email">
               <el-input v-model="memberRuleForm.email" style="width: 200px" placeholder="请输入邮箱" maxlength="30" />
             </el-form-item>
@@ -89,7 +86,6 @@ const rules = ref<FormRules>({
               <el-input v-model="memberRuleForm.repassword" style="width: 200px" placeholder="请输入确认密码" maxlength="12"
                 type="password" />
             </el-form-item>
-
             <el-form-item>
               <el-button>保存</el-button>
             </el-form-item>
