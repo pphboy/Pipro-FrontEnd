@@ -56,7 +56,8 @@ import Footer from '@/views/Footer/Footer.vue';
 <style scoped>
 
   .main {
-    background-image: url('@/assets/loginback.png');
+    background: rgb(255,241,247);
+    background: linear-gradient(90deg, rgba(255,241,247,1) 0%, rgba(26,176,242,1) 100%);
     background-repeat: no-repeat;
     background-size: cover;
 

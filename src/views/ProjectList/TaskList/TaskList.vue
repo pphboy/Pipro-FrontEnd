@@ -32,6 +32,10 @@ function closeWin(): void {
 }
 
 
+function update(){
+  console.log("update")
+}
+
 
 </script>
 
@@ -47,6 +51,7 @@ function closeWin(): void {
 
     <draggable 
       :list="projectMissionList" class="tasklist"
+      :choose="update"
       :forceFallback="true"
       ghost-class="chosen" 
       :group="'IndexGroup'"

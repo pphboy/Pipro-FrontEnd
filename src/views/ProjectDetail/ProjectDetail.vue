@@ -7,3 +7,6 @@ import Header from '@/components/Header.vue';
   <Header type="ProjectDetail"></Header>
   <router-view></router-view>
 </template>
+
+<style scoped>
+</style>

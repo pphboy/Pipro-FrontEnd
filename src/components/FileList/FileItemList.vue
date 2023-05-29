@@ -113,7 +113,7 @@ const uploadError: UploadProps['onError'] = (error: any) => {
     <el-table-column label="更新时间" prop="updateTime"></el-table-column>
     <el-table-column align="center">
       <template #default="scope">
-        <el-button type="primary" size="small" @click="downloadFile(`http://localhost:8085${scope.row.filePath}`,scope.row.filename)">下载</el-button>
+        <el-button type="primary" size="small" @click="downloadFile(`/file${scope.row.filePath}`,scope.row.filename)">下载</el-button>
         <el-button size="small" @click="renameFileFunc(scope.row)">重命名</el-button>
         <el-button size="small" type="danger" @click="deleteFileFunc(scope.row)">删除</el-button>
       </template>

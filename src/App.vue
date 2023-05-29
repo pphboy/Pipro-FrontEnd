@@ -28,8 +28,8 @@ body {
 }
 
 .main {
-  height: calc(100vh - 80px);
-  min-height: 900px;
+  /* height: calc(100vh - 80px); */
+  /* min-height: 900px; */
   /* 全局最小宽度不小于1000Px */
   min-width: 1000px; 
 }

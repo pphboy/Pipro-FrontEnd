@@ -16,8 +16,10 @@ import { updateKanban as updKanban } from '@/services/KanbanService';
 
 interface KanbanProps 
 {
+  moveDisable:boolean,
   kanban: KanbanDetail,
 }
+const emit = defineEmits(["update:moveDisable"])
 const pp = defineProps<KanbanProps>()
 
 const kanban =reactive<KanbanDetail>(pp.kanban);
@@ -111,6 +113,23 @@ function beforeCloseKanbanUpdate(done :Function){
   }
 }
 
+/**
+ * 选中任务时触发的事件
+ */
+function chooseAction(){
+  console.log("choosen")
+  // 选中任务后需要关闭全局的拖动事件
+  emit("update:moveDisable",true);
+}
+
+/**
+ * 放下任务时触发的事件
+ */
+function unchooseAction(){
+  console.log("unchoosen")
+  emit("update:moveDisable",false);
+}
+
 </script>
 
 <template>
@@ -153,7 +172,8 @@ function beforeCloseKanbanUpdate(done :Function){
       :value="kanban.listName"
       :json="kanban.listName"
       :name="kanban.listName"
-      
+      @choose="chooseAction"
+      @unchoose="unchooseAction"
       :forceFallback="true"
       @update="updateKanban"
       ghost-class="chosen" 
@@ -199,15 +219,14 @@ function beforeCloseKanbanUpdate(done :Function){
   display: inline-block;
   margin: 10px 10px;
   width: 400px;
-  /* min-height: 700px; */
   /* 因为Header也有个高度 */
 
 }
 
 .tasklist{ 
+  height: calc(100% - 100px) ;
   width: 400px;
   padding: 2px;
-  height: calc(80vh);
   overflow-y: auto;
   overflow-x: hidden;
   /* border: 1px solid #ccc;
