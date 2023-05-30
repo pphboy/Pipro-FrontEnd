@@ -2,6 +2,7 @@
 	import {Setting} from '@element-plus/icons-vue'
 	import { defineProps ,withDefaults } from 'vue'
 	import {PiProject} from '@/types/Project'
+	import CryptoJS from 'crypto-js'
 	
 	interface ProjectCardProps{
 		project:PiProject
@@ -14,10 +15,17 @@
 		} as PiProject)
 	} )
 
+
+	function getRandomVaueByName(str:string):number{
+		const hash = CryptoJS.SHA256(str).toString();
+		const num = parseInt(hash, 16) % 10 + 1;
+		return num;
+	}
 </script>
 
 <template>
 	<el-card class='project-card'>
+		<img :src="`/src/assets/d${getRandomVaueByName(project.projectName)}.jpg`" style="width:100%;height:200px;" alt="" />
 		<div class='detail-line'>
 			<div>
 				<div class="project-card-title">{{ project.projectName }}</div>
@@ -46,24 +54,31 @@
 <style scoped>
 	:deep() .el-card__body{
 		margin:  0;
-		padding:  5px;
+		padding:  0px;
 	}
 	.project-card{
 		width:  335px;
-		padding: 0 8px;
+		padding: 0 0;
 		display: inline-block;
 		margin: 5px;
+	}
+	.project-card:hover{
+		cursor: pointer;
 	}
 	.detail-line {
 		width: 335px;
 		display: flex;
+		padding:0 5px;
 		justify-content: space-between;
 	}
 	.detail-line>div:nth-child(1){
 		width: 320px;
 	}
+	.detail-line>div:nth-child(2){
+		margin-right: 10px;
+	}
 	.project-card-title{
-		margin: 10px 0;
+		/* margin: 10px 0; */
 		font-size: 20px;
 	}
 </style>

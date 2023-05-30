@@ -70,9 +70,10 @@ function getMemberName(list:Set<PiMember> | undefined):string{
         <div style="margin:auto 20px;">
           <el-checkbox @click.stop @change="todoStatusChange"></el-checkbox>
         </div>
-        <div>
+        <div style="display: flex;justify-content: center;flex-direction:column;">
           <div>{{ props.detail.missionTitle }}</div>
-          <p>结束时间: {{ props.detail.endTime }}</p>
+          <p v-if="props.detail.startTime">开始时间: {{ props.detail.startTime}}</p>
+          <p v-if="props.detail.endTime">结束时间: {{ props.detail.endTime }}</p>
         </div>
       </div>
 
@@ -113,5 +114,9 @@ function getMemberName(list:Set<PiMember> | undefined):string{
 
 .head-image {
   border-radius: 50%;
+}
+
+p{
+  margin:0;
 }
 </style>

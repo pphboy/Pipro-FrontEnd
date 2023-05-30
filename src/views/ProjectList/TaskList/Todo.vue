@@ -28,9 +28,12 @@ function todoClick(): void {
   console.log("打开任务面板");
   console.log(getCurrentInstance());
 
-
 }
 
+/**
+ * 任务状态变化
+ * @param status 
+ */
 function todoStatusChange(status: boolean): void {
   // 如果 true false 表示 取消和完成任务
   console.log(props.detail.missionTitle + " " + status);
@@ -45,6 +48,10 @@ function closeWin(): void {
   // 打开看板拖动事件
   emit('update:disabled', false);
 }
+
+/**
+ * 如果任务没有参与者，则需要获取默认头像
+ */
 function getMemberName(list:Set<PiMember> | undefined):string{
   if(list == undefined || list.size== 0){
     return "DEFAULT"
@@ -73,7 +80,7 @@ function getMemberName(list:Set<PiMember> | undefined):string{
         </div>
         <div>
           <div>{{ props.detail.missionTitle }}</div>
-          <p>结束时间: {{ props.detail.endTime }}</p>
+          <p v-if="props.detail.endTime ">结束时间: {{ props.detail.endTime }}</p>
           <p>项目名 : {{ props.detail.projectName }}</p>
         </div>
       </div>
@@ -115,5 +122,9 @@ function getMemberName(list:Set<PiMember> | undefined):string{
 
 .head-image {
   border-radius: 50%;
+}
+
+p{
+  margin:2px;
 }
 </style>

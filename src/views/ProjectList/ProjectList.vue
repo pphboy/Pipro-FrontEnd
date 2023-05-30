@@ -14,29 +14,37 @@ getAllMissionList();
 <template>
   <Header type="ProjectList"></Header>
 
-  <div class="project-main" >
-      <div>
-        <!-- 任务列表  -->
-        <TaskList :project-mission-list="projectListStore.missionList"></TaskList>
-      </div>
-      <div>
-        <div style="font-size:30px;padding:5px;">参与项目</div>
-        <!-- 项目列表 -->
-        <ProjectsView></ProjectsView>
-        
-      </div>
-  </div>
+  <div class="project-main">
+    <div>
+      <!-- 任务列表  -->
+      <TaskList :project-mission-list="projectListStore.missionList"></TaskList>
+    </div>
+    <div>
+      <!-- 项目列表 -->
+      <div style="font-size:30px;padding:5px;">项目列表</div>
+      <ProjectsView></ProjectsView>
+      <!-- 幻灯片 -->
+      <!-- <el-row>
+        <el-col :span="24" >
+          <el-carousel indicator-position="outside" height="100px">
+            <el-carousel-item v-for="item in 4" :key="item" >
+              <h3 text="2xl" justify="center">{{ item }}</h3>
+            </el-carousel-item>
+          </el-carousel>
+        </el-col>
+      </el-row> -->
 
+    </div>
+  </div>
 </template>
 
 <style scoped>
+.project-main {
+  display: flex;
 
-  .project-main{
-    display: flex;
-    
-  }
-  .project-main > div {
-    margin: 5px;
-  }
+}
 
+.project-main>div {
+  margin: 5px;
+}
 </style>
