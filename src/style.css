@@ -4,7 +4,7 @@ body {
 }
 /* 滚动条 */
 body *::-webkit-scrollbar {
-  width: 5px;
+  width: 10px;
   height: 10px;
 }
 body *::-webkit-scrollbar-track {
